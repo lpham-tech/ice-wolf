@@ -127,6 +127,37 @@ header>nav>.dropdown
 
 }
 
+#editor
+{
+    min-height: 500px;
+    border: 1px solid #eee;
+}
+.trumbowyg-box, .trumbowyg-editor
+{
+    width: 100%;
+}
+
+.new-post-title
+{
+    font-size: 2em;
+    height: 43px;
+}
+
+.publish-meta
+{
+
+}
+
+#btn-publish
+{
+    margin-bottom: 20px;
+}
+
+.category-list
+{
+    max-height: 180px;
+    overflow-y: auto;
+}
 /*FOOTER HERE :v*/
 
 footer{
