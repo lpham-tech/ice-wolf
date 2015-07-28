@@ -1,0 +1,148 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body{
+    font-size: 14px;
+    font-family:  Tahoma, sans-serif;
+    margin-bottom: 120px;
+}
+
+a
+{
+    text-decoration: none;
+}
+
+header
+{
+    height: 50px;
+    background: #fefefe;
+    width: 100%;
+    border-bottom: solid 1px #eee;
+}
+
+header > .logo
+{
+    font-family: Lobster, Tahoma, sans-serif;
+    font-size: 2em;
+    float:left;
+    padding: 7px 30px;
+}
+
+.logo > a
+{
+    text-decoration: none;
+    color: #48CFAD;
+}
+
+.logo > a:hover
+{
+    color: #37BC9B;
+}
+
+
+header > nav
+{
+    float:right;
+    padding: 10px 40px 10px 0;
+}
+
+header > nav > a
+{
+    color: #4FC1E9;
+    text-transform: capitalize;
+    padding: 0 10px;
+}
+
+header>nav>.dropdown
+{
+    display: inline-block;
+    margin: 10px 0px;
+}
+
+.dropdown-menu
+{
+    background-color: #fefefe;
+    border: solid 1px #eee;
+}
+
+.dropdown-menu li a
+{
+    color: #4FC1E9;
+}
+
+.dropdown-menu .divider
+{
+    background-color: #eee;
+}
+
+/*CONTENT CSS HERE*/
+
+.card-title-bar
+{
+    width: 100%;
+    height: 54px;
+    display: table;
+
+    font-family: Lobster, Tahoma, sans-serif;
+    font-size: 1.8em;
+    color: #48CFAD;
+    text-align: center;
+    line-height: 54px;
+
+    background: #eee;
+    border-bottom: solid 1px #eee;
+}
+
+.card-content
+{
+    padding: 30px;
+}
+
+.btn-mint
+{
+    background: #48CFAD;
+    border-color: #48CFAD;
+}
+
+.btn-mint:hover
+{
+    background: #37BC9B;
+    border-color: #37BC9B;
+}
+
+@media screen and (min-width:600px) {
+    .card{
+        border: solid 1px #eeeeee;
+    }
+
+    .single-card
+    {
+        margin: 50px 0;
+    }
+}
+
+@media screen and (max-width:599px) {
+
+}
+
+/*FOOTER HERE :v*/
+
+footer{
+    height: 120px;
+    width: 100%;
+    background: #434A54;
+    color: #fff;
+    display: table;
+
+    position: absolute;
+    bottom: 0;
+}
+
+footer> .copyright
+{
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+}
