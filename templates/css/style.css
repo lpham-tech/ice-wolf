@@ -1,17 +1,24 @@
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body{
-    font-size: 14px;
+    font-size: 16px;
     font-family:  "Noto serif", Tahoma, sans-serif;
+    color: #666;
     margin-bottom: 120px;
 }
 
 a
 {
     text-decoration: none;
+    color: #37BC9B;
+}
+
+a:hover
+{
+    color: #48CFAD;
 }
 
 header
@@ -116,8 +123,8 @@ header>nav>.dropdown
 }
 
 .navbar-simple ul {
-  float: none;
-  display: inline-block;
+    float: none;
+    display: inline-block;
 }
 
 @media screen and (max-width:599px) {
@@ -159,22 +166,22 @@ header>nav>.dropdown
     font-size: 2.5em;
 }
 
-.post-info
-{
-    padding: 10px 0 0 0;
-}
 .post-info > div
 {
-    font-family: Tahoma, Arial, "Sans serif";
+    text-transform: uppercase;
     display: inline-block;
-    font-size: 1.2em;
+    font-size: .9em;
     color: #999;
+}
+
+.post-info .glyphicon, .comment-time .glyphicon
+{
+    margin-right: 7px;
+    font-size: 1em;
 }
 
 .post-info .glyphicon
 {
-    margin-right: 7px;
-    font-size: 1.2em;
     color: #48CFAD;
 }
 
@@ -191,14 +198,14 @@ header>nav>.dropdown
 .post-content, .post-list .post-item
 {
     padding: 30px 0;
-    line-height: 1.8em;
-    font-size: 1.4em;
+    line-height: 1.7em;
+    font-size: 1.15em;
     color: #666;
 }
 
 pre
 {
-    font-size: 1em;
+    font-size: .85em;
 }
 
 .single-post img, .post-item img
@@ -226,8 +233,12 @@ pre
 
 .author-about
 {
+    margin: 20px 0;
     border-top: 1px solid #eee;
-    padding: 20px 0 40px;
+    border-bottom: 1px solid #eee;
+    padding: 20px 0;
+    color: #666;
+    line-height: 1.5em;
 }
 
 .author-avatar
@@ -263,8 +274,8 @@ pre
 .post-list .post-summary
 {
     padding: 20px 0;
-    font-size: 1.4em;
-    line-height: 1.8em;
+    font-size: 1.3em;
+    line-height: 1.6em;
 }
 .readmore{
     display: inline-block;
@@ -385,6 +396,59 @@ pre
     max-height: 180px;
     overflow-y: auto;
 }
+
+/*Comment CSS here*/
+.comment-form
+{
+    margin-top: 20px;
+}
+
+#comment-box
+{
+    width: 100%;
+    max-width: 100%;
+    min-height: 200px;
+}
+.comment-list
+{
+    margin: 0 0 20px;
+    padding: 0;
+    list-style: none;
+}
+
+.comment
+{
+    padding: 30px 0;
+    border-top: 1px solid #eee;
+    line-height: 1.8em;
+    color: #666;
+
+}
+
+.commenter-avatar
+{
+    float:left;
+}
+
+.commenter-name
+{
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.comment-time
+{
+    font-family: Tahoma, Arial, "Sans serif";
+    font-size: .9em;
+    padding-top: 7px;
+    color: #999;
+}
+
+.comment-content
+{
+    padding-top: 10px;
+}
+
 /*FOOTER HERE :v*/
 
 footer{
