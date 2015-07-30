@@ -1,11 +1,6 @@
 __author__ = 'bluzky'
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
-
-
-
-#create application
-app = Flask(__name__)
-app.config.from_object("config")
+from config import app
 
 @app.route("/")
 def homepage_handler():
