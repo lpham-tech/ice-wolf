@@ -1,15 +1,16 @@
 __author__ = 'bluzky'
+import hashlib
+
 from model.user import User as DBUser
 from lib.utils import is_email_address_valid
 from lib.exceptions import InvalidFieldError, AccessDeniedError, UserNotFoundError
-import hashlib
+
 
 class User(object):
-
     @classmethod
     def add(cls, email, password, confirm_password, first_name, last_name, brief=None):
 
-        #validate email
+        # validate email
         if not is_email_address_valid(email):
             raise InvalidFieldError("Email address is not valid", ["email"])
 
@@ -19,7 +20,7 @@ class User(object):
         elif len(password) < 6:
             raise InvalidFieldError("Password length must be at least 6 characters", ["password"])
         # validate name
-        if len(first_name) == 0 or len(last_name) == 0:
+        if not first_name or not last_name:
             raise InvalidFieldError("First name and/or last name are in valid", ["first_name", "last_name"])
 
         args = {
@@ -34,9 +35,9 @@ class User(object):
 
         # create activate id
         user = DBUser(**args)
-        user.activation_id = hashlib.md5(email+password).hexdigest()
+        user.activation_id = hashlib.md5(email + password).hexdigest()
 
-        #persistent user object
+        # persistent user object
         try:
             user.save()
             return user
@@ -46,11 +47,11 @@ class User(object):
     @classmethod
     def verify_user(cls, email, password):
 
-        #validate input
+        # validate input
         if not is_email_address_valid(email) or len(password) < 6:
             return None
 
-        arg ={
+        arg = {
             "email": email.lower(),
         }
 
@@ -78,4 +79,46 @@ class User(object):
         else:
             dl_user.delete()
 
+    @classmethod
+    def update_user(cls, user_id, email=None, password=None, confirm_password=None, first_name=None, last_name=None,
+                    brief=None):
+        try:
+            user = DBUser.get_by_id(user_id)
 
+            if user is None:
+                raise UserNotFoundError("User with id = %d does not exist" %user_id)
+
+            # validate email
+            if email and not is_email_address_valid(email):
+                raise InvalidFieldError("Email address is not valid", ["email"])
+            elif email:
+                user.email = email
+
+            if password and confirm_password:
+                # check matched password
+                if password != confirm_password:
+                    raise InvalidFieldError("Password and confirm password does not match", ["password", "confirm_password"])
+                elif len(password) < 6:
+                    raise InvalidFieldError("Password length must be at least 6 characters", ["password"])
+                else:
+                    user.password = hashlib.md5(password).hexdigest()
+
+            # validate name
+            if first_name is not None and len(first_name) == 0:
+                raise InvalidFieldError("First name is in valid", ["first_name"])
+            elif first_name:
+                user.first_name = first_name
+
+            if last_name is not  None and len(last_name) == 0:
+                raise InvalidFieldError("Last name is in valid", ["last_name"])
+            elif last_name:
+                user.last_name = last_name
+
+            if brief:
+                user.brief = brief
+
+            # persistent user object
+            user.update()
+            return user
+        except:
+            raise

@@ -8,6 +8,7 @@ from model.comment import Comment
 class WbTescase(TestCase):
     @classmethod
     def setUpClass(cls):
+        db.drop_all()
         db.create_all()
 
     @classmethod
