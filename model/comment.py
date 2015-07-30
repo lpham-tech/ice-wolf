@@ -1,8 +1,11 @@
 __author__ = 'bluzky'
-from config import db
-from datetime import  datetime
+from datetime import datetime
 
-class Comment(db.Model):
+from config import db
+from base import ModelMethods
+
+
+class Comment(db.Model, ModelMethods):
     _table_name = 'comment'
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text())
@@ -11,7 +14,7 @@ class Comment(db.Model):
     time = db.Column(db.DateTime())
     approved = db.Column(db.Boolean(), default=False)
 
-    def __init__(self, content, post_id, user_id, comment_time = None, approved=False):
+    def __init__(self, content, post_id, user_id, comment_time=None, approved=False):
         self.content = content
         self.post_id = post_id
         self.user_id = user_id
@@ -22,7 +25,6 @@ class Comment(db.Model):
             self.time = datetime.now()
 
         self.approved = approved
-
 
     def __repr__(self):
         return "Comment: %s ..." % self.content[:50]
