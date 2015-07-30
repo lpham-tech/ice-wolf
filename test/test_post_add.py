@@ -6,7 +6,7 @@ from controller.post import Post
 from model.post import Post as DBPost
 from lib.exceptions import InvalidFieldError
 
-class TestAddUser(WbTescase):
+class TestAddPost(WbTescase):
 
 
     def test_add_post_with_all_valid_fields(self):

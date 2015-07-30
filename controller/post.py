@@ -1,8 +1,9 @@
 __author__ = 'bluzky'
 from model.post import Post as DBPost
+from model.user import User as DBUser
 from datetime import datetime
 
-from lib.exceptions import InvalidFieldError
+from lib.exceptions import InvalidFieldError, AccessDeniedError, UserNotFoundError, PostNotFoundError
 
 
 class Post(object):
@@ -17,7 +18,7 @@ class Post(object):
             title = time.strftime("%A %d %B %Y")
 
         if not content:
-            raise InvalidFieldError("Post content could not be empty", ["content"])
+            raise InvalidFieldError("Post's content could not be empty", ["content"])
 
         args = {
             "user_id": user_id,
@@ -38,8 +39,40 @@ class Post(object):
 
 
     @classmethod
-    def update_post(cls, author_id, post_id, title, content, feature_image=None, tags = None, categories = None, draft=False):
-        pass
+    def update_post(cls, user_id, post_id, title = None, content = None, feature_image=None, tags = None, categories = None, draft=False):
+        # only allow author or manager to edit post
+        user = DBUser.get_by_id(user_id)
+        if not user:
+            raise UserNotFoundError("User with id = %d does not exist" % user_id )
+
+        post = DBPost.get_by_id(post_id)
+        if not post:
+            raise PostNotFoundError(post_id=post_id)
+
+        if post.author.id != user_id and user.role != "manager":
+            raise AccessDeniedError("You cannot edit post not published by you.")
+
+        if title:
+            post.title = title
+
+        if content:
+            post.content = content
+        elif content is not None and len(content) == 0:
+            raise InvalidFieldError("Post's content cannot be empty", ["content"])
+
+        if feature_image:
+            post.feature_image = feature_image
+
+        if tags:
+            post.tags = tags
+
+        if categories:
+            post.categories = categories
+
+        post.update()
+        return post
+
+
 
     @classmethod
     def get_post(cls, post_id):

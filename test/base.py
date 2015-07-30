@@ -1,6 +1,7 @@
 __author__ = 'bluzky'
 from unittest import TestCase
 from config import db
+import time
 import setup_testdb
 from model.user import User
 from model.post import Post
@@ -15,4 +16,5 @@ class WbTescase(TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        time.sleep(1)
         db.drop_all()

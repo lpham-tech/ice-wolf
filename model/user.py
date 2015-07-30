@@ -18,7 +18,7 @@ class User(db.Model, ModelMethods):
     # activation_id is used for activating account and reset password
     activation_id = db.Column(db.String(64))
 
-    posts = db.relationship('Post', backref=db.backref('user', lazy='select'), lazy='dynamic')
+    posts = db.relationship('Post', backref=db.backref('author', lazy='select'), lazy='dynamic')
     comments = db.relationship('Comment', backref=db.backref('user', lazy='select'), lazy='dynamic')
 
     def __init__(self, email, password, first_name, last_name, avatar=None, brief=None, role=None):

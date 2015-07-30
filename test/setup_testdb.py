@@ -9,13 +9,15 @@ def set_up_db():
         "password": hashlib.md5("123456").hexdigest(),
         "first_name": "Admin",
         "last_name": "Nguyen",
-        "brief": "Hello world"
+        "brief": "Hello world",
+        "role": "manager"
     }
     user = User(**args)
     user.save()
 
     args["email"] = "editor2@gmail.com"
     args["first_name"] = "Editor2"
+    args["role"] = 'editor'
     user = User(**args)
     user.save()
 
