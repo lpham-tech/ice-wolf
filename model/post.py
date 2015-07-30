@@ -17,7 +17,7 @@ class Post(db.Model, ModelMethods):
 
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
-    def __init__(self, title, content,  user_id, feature_image = None, post_date=None, tags=None, categories=None, draft=False):
+    def __init__(self, user_id, title, content, feature_image = None, post_date=None, tags=None, categories=None, draft=False):
         self.title = title
         self.content = content
         self.user_id = user_id

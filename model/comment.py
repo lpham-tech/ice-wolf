@@ -14,7 +14,8 @@ class Comment(db.Model, ModelMethods):
     time = db.Column(db.DateTime())
     approved = db.Column(db.Boolean(), default=False)
 
-    def __init__(self, content, post_id, user_id, comment_time=None, approved=False):
+    #temporary set approved = True for testing only
+    def __init__(self, content, post_id, user_id, comment_time=None, approved=True):
         self.content = content
         self.post_id = post_id
         self.user_id = user_id

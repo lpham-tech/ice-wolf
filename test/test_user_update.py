@@ -12,28 +12,7 @@ class TestUpdateUser(WbTescase):
     @classmethod
     def setUpClass(cls):
         WbTescase.setUpClass()
-        args = {
-            "email": "admin@gmail.com",
-            "password": "123456",
-            "confirm_password": "123456",
-            "first_name": "Admin",
-            "last_name": "Nguyen",
-            "brief": "Hello world"
-        }
-        user1 = User.add(**args)
-
-        args["email"] = "editor2@gmail.com"
-        args["first_name"] = "Editor2"
-        user2 = User.add(**args)
-
-        args["email"] = "editor3@gmail.com"
-        args["first_name"] = "Editor3"
-        user3 = User.add(**args)
-
-        args["email"] = "editor4@gmail.com"
-        args["first_name"] = "Editor4"
-        user4 = User.add(**args)
-        cls.user_id = [user1.id, user2.id, user3.id, user4.id]
+        cls.user_id = [1,2,3,4]
 
     def test_update_user_all_valid_field(self):
         args = {
