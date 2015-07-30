@@ -31,10 +31,14 @@ class TestAddUser(WbTescase):
 
         try:
             user = User.add(**args)
+
+            # add duplicate
+            User.add(**args)
             #self.fail("should throw exception")
         except Exception as e:
             print e.message
             pass
+
 
 
 if __name__ == '__main__':

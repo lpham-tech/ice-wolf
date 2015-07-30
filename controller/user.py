@@ -43,6 +43,24 @@ class User(object):
         except:
             raise
 
+    @classmethod
+    def verify_user(cls, email, password):
+
+        #validate input
+        if not is_email_address_valid(email) or len(password) < 6:
+            return None
+
+        arg ={
+            "email": email,
+        }
+
+        password_hashed = hashlib.md5(password).hexdigest(),
+        user = DBUser.get_one(arg)
+
+        if user and user.password == password_hashed[0]:
+            return user
+        else:
+            return None
 
 
 
