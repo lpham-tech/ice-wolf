@@ -1,7 +1,7 @@
 __author__ = 'bluzky'
 from model.user import User as DBUser
 from lib.utils import is_email_address_valid
-from lib.exceptions import InvalidFieldError
+from lib.exceptions import InvalidFieldError, AccessDeniedError, UserNotFoundError
 import hashlib
 
 class User(object):
@@ -23,7 +23,7 @@ class User(object):
             raise InvalidFieldError("First name and/or last name are in valid", ["first_name", "last_name"])
 
         args = {
-            "email": email,
+            "email": email.lower(),
             "password": hashlib.md5(password).hexdigest(),
             "first_name": first_name,
             "last_name": last_name
@@ -51,7 +51,7 @@ class User(object):
             return None
 
         arg ={
-            "email": email,
+            "email": email.lower(),
         }
 
         password_hashed = hashlib.md5(password).hexdigest(),
@@ -62,5 +62,20 @@ class User(object):
         else:
             return None
 
+    @classmethod
+    def delete_user(cls, request_user_id, user_delete):
+        user = DBUser.get_by_id(request_user_id)
+        dl_user = DBUser.get_by_id(user_delete)
+
+        # if not user:
+        #     raise UserNotFoundError("user with id = %d does not exist", request_user_id)
+
+        if not dl_user:
+            raise UserNotFoundError("user with id = %d does not exist", user_delete)
+
+        if user.role != "manager":
+            raise AccessDeniedError("Not manager user cannot delete account")
+        else:
+            dl_user.delete()
 
 

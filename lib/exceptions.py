@@ -28,3 +28,7 @@ class PostNotFoundError(Exception):
             msg = "Post does not exist"
 
         super(PostNotFoundError,self).__init__(msg)
+
+class AccessDeniedError(Exception):
+    def __init__(self, msg):
+        super(AccessDeniedError,self).__init__(msg)
