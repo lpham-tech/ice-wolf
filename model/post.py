@@ -1,8 +1,9 @@
 __author__ = 'bluzky'
 from config import db
 from datetime import  datetime
+from base import ModelMethods
 
-class Post(db.Model):
+class Post(db.Model, ModelMethods):
     _table_name = 'post'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(512) )
