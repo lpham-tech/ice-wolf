@@ -4,7 +4,7 @@ from model.user import User as DBUser
 from datetime import datetime
 
 from lib.exceptions import InvalidFieldError, AccessDeniedError, UserNotFoundError, PostNotFoundError
-
+from lib.utils import is_id_valid
 
 class Post(object):
     @classmethod
@@ -45,6 +45,9 @@ class Post(object):
         if not user:
             raise UserNotFoundError("User with id = %d does not exist" % user_id )
 
+        if not is_id_valid(post_id):
+            raise InvalidFieldError("Post id is invalid", ["post_id"])
+
         post = DBPost.get_by_id(post_id)
         if not post:
             raise PostNotFoundError(post_id=post_id)
@@ -76,7 +79,9 @@ class Post(object):
 
     @classmethod
     def get_post(cls, post_id):
-        pass
+        if not is_id_valid(post_id):
+            raise InvalidFieldError("Post id is invalid", ["post_id"])
+        return DBPost.get_by_id(post_id)
 
     @classmethod
     def get_list_post(cls, page = 0, post_each_page=20):
@@ -95,6 +100,9 @@ class Post(object):
         user = DBUser.get_by_id(user_id)
         if not user:
             raise UserNotFoundError("User with id = %d does not exist" % user_id )
+
+        if not is_id_valid(post_id):
+            raise InvalidFieldError("Post id is invalid", ["post_id"])
 
         post = DBPost.get_by_id(post_id)
         if not post:

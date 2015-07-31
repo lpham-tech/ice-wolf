@@ -2,6 +2,7 @@ __author__ = 'bluzky'
 import re
 import random
 import string
+from exceptions import InvalidFieldError
 
 
 _EMAIL_REGEX = re.compile(
@@ -27,3 +28,10 @@ def is_valid_url(url):
 
 def generate_id(size=12, chars=string.ascii_lowercase + string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
+
+def is_id_valid(id):
+    try:
+        id = int(id)
+        return True if id > 0 else False
+    except:
+        return False

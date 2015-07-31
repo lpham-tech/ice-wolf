@@ -1,4 +1,6 @@
 __author__ = 'bluzky'
+import unittest
+
 from base import WbTescase
 from controller.post import Post
 from model.post import Post as DBPost
@@ -53,3 +55,7 @@ class TestDeletePost(WbTescase):
             self.fail("Expect PostNotFoundError")
         except PostNotFoundError:
             pass
+
+
+if __name__ == '__main__':
+    unittest.main()
