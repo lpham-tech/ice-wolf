@@ -91,6 +91,24 @@ def set_up_db():
     post = Post(**args)
     post.save()
 
+    args["title"] = "My new Phone"
+    args["user_id"] = 3
+
+    post = Post(**args)
+    post.save()
+
+    args["title"] = "Photo with new phone"
+    args["user_id"] = 3
+
+    post = Post(**args)
+    post.save()
+
+    args["title"] = "List of useful app for Blackberry"
+    args["user_id"] = 3
+
+    post = Post(**args)
+    post.save()
+
 
     cmt_args={
         "content":"<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut ipsum ad, mollitia repellendus harum dignissimos rem beatae, dolore minus. Sapiente saepe mollitia magnam molestiae natus officiis corrupti voluptatibus, qui repudiandae.</p>",

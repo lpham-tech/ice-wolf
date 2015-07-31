@@ -23,9 +23,15 @@ class ModelMethods(object):
         return cls.query.get(id)
 
     @classmethod
-    def get(cls, filter_dict, limit=20, start=0, order_by=None):
-        if order_by:
-            return cls.query.filter_by(**filter_dict).offset(start).limit(limit).all()
+    def get(cls, filter_dict=None, limit=20, start=0, order_by=None):
+        if filter_dict:
+            if order_by:
+                return cls.query.filter_by(**filter_dict).offset(start).limit(limit).all()
+            else:
+                return cls.query.filter_by(**filter_dict).offset(start).limit(limit).order_by(order_by)
         else:
-            return cls.query.filter_by(**filter_dict).offset(start).limit(limit).order_by(order_by)
+            if order_by:
+                return cls.query.offset(start).limit(limit).all()
+            else:
+                return cls.query.offset(start).limit(limit).order_by(order_by)
 
