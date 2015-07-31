@@ -29,6 +29,16 @@ class PostNotFoundError(Exception):
 
         super(PostNotFoundError,self).__init__(msg)
 
+class CommentNotFoundError(Exception):
+    def __init__(self, msg = None, comment_id=None):
+        if comment_id:
+            self.comment_id = comment_id
+            msg = "Comment with id = %d does not exist"
+        elif msg is None:
+            msg = "Comment does not exist"
+
+        super(CommentNotFoundError,self).__init__(msg)
+
 class AccessDeniedError(Exception):
     def __init__(self, msg):
         super(AccessDeniedError,self).__init__(msg)
