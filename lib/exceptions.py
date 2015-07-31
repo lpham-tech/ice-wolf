@@ -32,3 +32,7 @@ class PostNotFoundError(Exception):
 class AccessDeniedError(Exception):
     def __init__(self, msg):
         super(AccessDeniedError,self).__init__(msg)
+
+class InvalidActionError(Exception):
+    def __init__(self, msg):
+        super(InvalidActionError,self).__init__(msg)

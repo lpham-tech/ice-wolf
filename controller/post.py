@@ -101,15 +101,44 @@ class Post(object):
         return post_list
 
     @classmethod
-    def get_list_post(cls, page=0, post_each_page=20):
-        pass
-
-    @classmethod
-    def find_post_by_category(cls, category_name, page=0, limit=10):
+    def find_post_by_keyword(cls, keyword, page=1, limit=10):
         """
         Find all post publish by specific author
 
-        :param author_id: id of author to find post by
+        :param category_name: category name
+        :param page: page index begin at 1
+        :param limit:
+        :return:
+        """
+
+        if not keyword:
+            raise InvalidFieldError("category cannot be empty", ["search string"])
+
+        args = {
+                "title": "%s"%keyword,
+                "content": "%s"%keyword,
+                }
+
+        # validate pagination info
+        if not is_id_valid(page):
+            page = 1
+
+        if int(limit) <= 0 or int(limit) >= 50:
+            limit = 10
+
+        try:
+            start = (page - 1) * limit + 1  # id in sql start at 1
+            post_list = DBPost.search(search_dict=args, start=start, limit=limit, order_by="time desc")
+            return post_list
+        except:
+            raise InvalidFieldError("Can not search with given string", ["search string"])
+
+    @classmethod
+    def find_post_by_category(cls, category_name, page=1, limit=10):
+        """
+        Find all post publish by specific author
+
+        :param category_name: category name
         :param page: page index begin at 1
         :param limit:
         :return:
