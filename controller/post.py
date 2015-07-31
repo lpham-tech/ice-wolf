@@ -138,7 +138,7 @@ class Post(object):
 
         start = (page-1)*limit + 1 # id in sql start at 1
         post_list = DBPost.get(filter_dict=args, start=start, limit=limit, order_by="time desc")
-        return post_list
+        return post_list, author
 
     @classmethod
     def delete_post(cls, user_id, post_id):
