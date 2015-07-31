@@ -110,8 +110,35 @@ class Post(object):
         pass
 
     @classmethod
-    def get_post_by_author(cls, author_id, page=0, post_each_page=20):
-        pass
+    def find_post_by_author(cls, author_id, page=1, limit=10):
+        """
+        Get many post at a time, order by post time
+        :param page: page index begin at 1
+        :param limit:
+        :return:
+        """
+
+        # valid user if
+        if not is_id_valid(author_id):
+            raise InvalidFieldError("author id does not valid.", ["author_id"])
+
+        # confirm user existent
+        author = DBUser.get_by_id(author_id)
+        if not author:
+            raise UserNotFoundError("User with id = %d does not exist")
+
+        args = {"user_id": author_id}
+
+        #validate pagination info
+        if not is_id_valid(page):
+            page = 1
+
+        if int(limit) <=0 or int(limit) >=50:
+            limit = 10
+
+        start = (page-1)*limit + 1 # id in sql start at 1
+        post_list = DBPost.get(filter_dict=args, start=start, limit=limit, order_by="time desc")
+        return post_list
 
     @classmethod
     def delete_post(cls, user_id, post_id):
