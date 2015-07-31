@@ -80,7 +80,11 @@ class Post(object):
     def get_post(cls, post_id):
         if not is_id_valid(post_id):
             raise InvalidFieldError("Post id is invalid", ["post_id"])
-        return DBPost.get_by_id(post_id)
+        post = DBPost.get_by_id(post_id)
+
+        if post:
+            post.comments = post.comments.all()
+        return post
 
     @classmethod
     def get_posts(cls, page=1, limit=10):
