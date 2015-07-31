@@ -87,31 +87,48 @@ class Post(object):
         return post
 
     @classmethod
-    def get_posts(cls, page=1, limit=10):
+    def get_posts(cls, page=1, per_page=10):
         """
         Get many post at a time, order by post time
         :param page: page index begin at 1
-        :param limit:
+        :param per_page:
         :return:
         """
         if not is_id_valid(page):
             page = 1
 
-        if int(limit) <= 0 or int(limit) >= 50:
-            limit = 10
+        if int(per_page) <= 0 or int(per_page) >= 50:
+            per_page = 10
 
-        start = (page - 1) * limit + 1  # id in sql start at 1
-        post_list = DBPost.get(start=start, limit=limit, order_by="time desc")
+        start = (page - 1) * per_page   # id in sql start at 1
+        post_list = DBPost.get(start=start, per_page=per_page, order_by="time desc")
         return post_list
 
     @classmethod
-    def find_post_by_keyword(cls, keyword, page=1, limit=10):
+    def get_posts_pagination(cls, page=1, per_page=10):
+        """
+        Get many post at a time, order by post time
+        :param page: page index begin at 1
+        :param per_page:
+        :return:
+        """
+        if not is_id_valid(page):
+            page = 1
+
+        if int(per_page) <= 0 or int(per_page) >= 50:
+            per_page = 10
+
+        pagination = DBPost.pagination_get(page=page, per_page=per_page)
+        return pagination
+
+    @classmethod
+    def find_post_by_keyword(cls, keyword, page=1, per_page=10):
         """
         Find all post publish by specific author
 
         :param category_name: category name
         :param page: page index begin at 1
-        :param limit:
+        :param per_page:
         :return:
         """
 
@@ -119,59 +136,118 @@ class Post(object):
             raise InvalidFieldError("category cannot be empty", ["search string"])
 
         args = {
-                "title": "%s"%keyword,
-                "content": "%s"%keyword,
-                }
+            "title": "%s" % keyword,
+            "content": "%s" % keyword,
+        }
 
         # validate pagination info
         if not is_id_valid(page):
             page = 1
 
-        if int(limit) <= 0 or int(limit) >= 50:
-            limit = 10
+        if int(per_page) <= 0 or int(per_page) >= 50:
+            per_page = 10
 
         try:
-            start = (page - 1) * limit + 1  # id in sql start at 1
-            post_list = DBPost.search(search_dict=args, start=start, limit=limit, order_by="time desc")
+            start = (page - 1) * per_page   # id in sql start at 1
+            post_list = DBPost.search(search_dict=args, start=start, per_page=per_page, order_by="time desc")
             return post_list
         except:
             raise InvalidFieldError("Can not search with given string", ["search string"])
 
     @classmethod
-    def find_post_by_category(cls, category_name, page=1, limit=10):
+    def find_post_by_keyword_pagination(cls, keyword, page=1, per_page=10):
         """
         Find all post publish by specific author
 
         :param category_name: category name
         :param page: page index begin at 1
-        :param limit:
+        :param per_page:
+        :return:
+        """
+
+        if not keyword:
+            raise InvalidFieldError("category cannot be empty", ["search string"])
+
+        args = {
+            "title": "%s" % keyword,
+            "content": "%s" % keyword,
+        }
+
+        # validate pagination info
+        if not is_id_valid(page):
+            page = 1
+
+        if int(per_page) <= 0 or int(per_page) >= 50:
+            per_page = 10
+
+        try:
+            start = (page - 1) * per_page   # id in sql start at 1
+            post_list = DBPost.pagination_search(search_dict=args, page=page, per_page=per_page, order_by="time desc")
+            return post_list
+        except:
+            raise InvalidFieldError("Can not search with given string", ["search string"])
+
+    @classmethod
+    def find_post_by_category(cls, category_name, page=1, per_page=10):
+        """
+        Find all post publish by specific author
+
+        :param category_name: category name
+        :param page: page index begin at 1
+        :param per_page:
         :return:
         """
 
         if not category_name:
             raise InvalidFieldError("category cannot be empty", ["category"])
         cat_slug = get_slug_from_string(category_name)
-        args = {"categories": "`%s`"%cat_slug}
+        args = {"categories": "`%s`" % cat_slug}
 
         # validate pagination info
         if not is_id_valid(page):
             page = 1
 
-        if int(limit) <= 0 or int(limit) >= 50:
-            limit = 10
+        if int(per_page) <= 0 or int(per_page) >= 50:
+            per_page = 10
 
-        start = (page - 1) * limit + 1  # id in sql start at 1
-        post_list = DBPost.search(search_dict=args, start=start, limit=limit, order_by="time desc")
+        start = (page - 1) * per_page  # id in sql start at 1
+        post_list = DBPost.search(search_dict=args, start=start, per_page=per_page, order_by="time desc")
         return post_list
 
     @classmethod
-    def find_post_by_author(cls, author_id, page=1, limit=10):
+    def find_post_by_category_pagination(cls, category_name, page=1, per_page=10):
+        """
+        Find all post publish by specific author
+
+        :param category_name: category name
+        :param page: page index begin at 1
+        :param per_page:
+        :return:
+        """
+
+        if not category_name:
+            raise InvalidFieldError("category cannot be empty", ["category"])
+        cat_slug = get_slug_from_string(category_name)
+        args = {"categories": "`%s`" % cat_slug}
+
+        # validate pagination info
+        if not is_id_valid(page):
+            page = 1
+
+        if int(per_page) <= 0 or int(per_page) >= 50:
+            per_page = 10
+
+        pagination = DBPost.pagination_search(search_dict=args, page=page, per_page=per_page, order_by="time desc")
+        return pagination
+
+    @classmethod
+    def find_post_by_author(cls, author_id, page=1, per_page=10):
         """
         Find all post publish by specific author
 
         :param author_id: id of author to find post by
         :param page: page index begin at 1
-        :param limit:
+        :param per_page:
         :return:
         """
 
@@ -190,12 +266,44 @@ class Post(object):
         if not is_id_valid(page):
             page = 1
 
-        if int(limit) <= 0 or int(limit) >= 50:
-            limit = 10
+        if int(per_page) <= 0 or int(per_page) >= 50:
+            per_page = 10
 
-        start = (page - 1) * limit + 1  # id in sql start at 1
-        post_list = DBPost.get(filter_dict=args, start=start, limit=limit, order_by="time desc")
+        start = (page - 1) * per_page   # id in sql start at 1
+        post_list = DBPost.get(filter_dict=args, start=start, per_page=per_page, order_by="time desc")
         return post_list, author
+
+    @classmethod
+    def find_post_by_author_pagination(cls, author_id, page=1, per_page=10):
+        """
+        Find all post publish by specific author
+
+        :param author_id: id of author to find post by
+        :param page: page index begin at 1
+        :param per_page:
+        :return:
+        """
+
+        # valid user if
+        if not is_id_valid(author_id):
+            raise InvalidFieldError("author id does not valid.", ["author_id"])
+
+        # confirm user existent
+        author = DBUser.get_by_id(author_id)
+        if not author:
+            raise UserNotFoundError("User with id = %d does not exist")
+
+        args = {"user_id": author_id}
+
+        # validate pagination info
+        if not is_id_valid(page):
+            page = 1
+
+        if int(per_page) <= 0 or int(per_page) >= 50:
+            per_page = 10
+
+        pagination = DBPost.pagination_get(filter_dict=args, page=page, per_page=per_page, order_by="time desc")
+        return pagination, author
 
     @classmethod
     def delete_post(cls, user_id, post_id):

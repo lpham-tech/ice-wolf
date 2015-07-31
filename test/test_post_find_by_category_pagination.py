@@ -8,32 +8,32 @@ from lib.exceptions import UserNotFoundError, InvalidFieldError
 
 class TestFindPosByCategory(WbTescase):
     def test_find_post_with_valid_info(self):
-        posts = Post.find_post_by_category("Python", 1, 3)
-        self.assertEqual(len(posts), 3)
+        pagination = Post.find_post_by_category_pagination("Python", 1, 3)
+        self.assertEqual(len(pagination.items), 3)
 
     def test_find_post_without_pagination_param(self):
-        posts = Post.find_post_by_category("NON IT")
-        self.assertEqual(len(posts), 7)
+        pagination = Post.find_post_by_category_pagination("NON IT")
+        self.assertEqual(len(pagination.items), 7)
 
 
     def test_find_post_with_invalid_pagination_param(self):
-        posts = Post.find_post_by_category("NON IT", 0, -2)
-        self.assertEqual(len(posts), 7)
+        pagination = Post.find_post_by_category_pagination("NON IT", 0, -2)
+        self.assertEqual(len(pagination.items), 7)
 
     def test_find_post_with_out_of_range_index(self):
-        posts = Post.find_post_by_category("C++", 4, 7)
-        self.assertEqual(len(posts), 0)
+        pagination = Post.find_post_by_category_pagination("C++", 4, 7)
+        self.assertEqual(len(pagination.items), 0)
 
     def test_find_post_with_not_exist_category(self):
 
-        posts = Post.find_post_by_category("Java", 4, 7)
-        self.assertEqual(len(posts), 0)
+        pagination = Post.find_post_by_category_pagination("Java", 4, 7)
+        self.assertEqual(len(pagination.items), 0)
 
 
     def test_find_post_with_invalid_categories(self):
 
         try:
-            Post.find_post_by_category("")
+            Post.find_post_by_category_pagination("")
             self.fail("Expect InvalidFieldError")
         except InvalidFieldError:
             pass
