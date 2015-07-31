@@ -98,7 +98,7 @@ class Post(object):
             limit = 10
 
         start = (page-1)*limit + 1 # id in sql start at 1
-        post_list = DBPost.get(start=start, limit=limit,order_by=DBPost.time)
+        post_list = DBPost.get(start=start, limit=limit, order_by="time desc")
         return post_list
 
     @classmethod

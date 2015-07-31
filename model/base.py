@@ -26,12 +26,14 @@ class ModelMethods(object):
     def get(cls, filter_dict=None, limit=20, start=0, order_by=None):
         if filter_dict:
             if order_by:
-                return cls.query.filter_by(**filter_dict).offset(start).limit(limit).all()
+                return cls.query.filter_by(**filter_dict).order_by(order_by).offset(start).limit(limit).all()
             else:
-                return cls.query.filter_by(**filter_dict).offset(start).limit(limit).order_by(order_by)
+                return cls.query.filter_by(**filter_dict).offset(start).limit(limit).all()
+
         else:
             if order_by:
-                return cls.query.offset(start).limit(limit).all()
+                return cls.query.order_by(order_by).offset(start).limit(limit).all()
             else:
-                return cls.query.offset(start).limit(limit).order_by(order_by)
+                return cls.query.offset(start).limit(limit).all()
+
 
