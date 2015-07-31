@@ -91,6 +91,19 @@ class Post(object):
         pass
 
     @classmethod
-    def delete_post(cls, author_id, post_id):
-        pass
+    def delete_post(cls, user_id, post_id):
+        user = DBUser.get_by_id(user_id)
+        if not user:
+            raise UserNotFoundError("User with id = %d does not exist" % user_id )
+
+        post = DBPost.get_by_id(post_id)
+        if not post:
+            raise PostNotFoundError(post_id=post_id)
+
+        #only allow author and manager to delete post
+        if post.author.id != user_id and user.role != "manager":
+            raise AccessDeniedError("You don't have permission to delete this post.")
+
+        post.delete()
+
 
