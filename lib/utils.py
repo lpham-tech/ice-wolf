@@ -35,3 +35,16 @@ def is_id_valid(id):
         return True if id > 0 else False
     except:
         return False
+
+def get_slug_from_string(string):
+
+    result = ""
+    for char in string:
+        if not char.isalpha() and not char.isdigit():
+            result += " "
+        else:
+            result += char
+    result = result.strip().lower()
+    result = result.replace(" ", "-")
+    return result
+

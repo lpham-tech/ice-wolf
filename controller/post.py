@@ -1,18 +1,19 @@
 __author__ = 'bluzky'
-from model.post import Post as DBPost
-from model.user import User as DBUser
 from datetime import datetime
 
+from model.post import Post as DBPost
+from model.user import User as DBUser
 from lib.exceptions import InvalidFieldError, AccessDeniedError, UserNotFoundError, PostNotFoundError
-from lib.utils import is_id_valid
+from lib.utils import is_id_valid, get_slug_from_string
+
 
 class Post(object):
     @classmethod
-    def add_post(cls, user_id, title, content, feature_image=None, tags = None, categories = None, draft=False):
+    def add_post(cls, user_id, title, content, feature_image=None, tags=None, categories=None, draft=False):
 
         # not need to check author existent
 
-        #if title is empty, use curent date as title
+        # if title is empty, use curent date as title
         if len(title) == 0:
             time = datetime.now()
             title = time.strftime("%A %d %B %Y")
@@ -22,12 +23,12 @@ class Post(object):
 
         args = {
             "user_id": user_id,
-            "title" : title,
-            "content" : content,
+            "title": title,
+            "content": content,
             "feature_image": feature_image,
-            "tags":tags,
-            "categories":categories,
-            "draft":draft
+            "tags": tags,
+            "categories": categories,
+            "draft": draft
         }
 
         post = DBPost(**args)
@@ -37,13 +38,13 @@ class Post(object):
         except:
             raise
 
-
     @classmethod
-    def update_post(cls, user_id, post_id, title = None, content = None, feature_image=None, tags = None, categories = None, draft=False):
+    def update_post(cls, user_id, post_id, title=None, content=None, feature_image=None, tags=None, categories=None,
+                    draft=False):
         # only allow author or manager to edit post
         user = DBUser.get_by_id(user_id)
         if not user:
-            raise UserNotFoundError("User with id = %d does not exist" % user_id )
+            raise UserNotFoundError("User with id = %d does not exist" % user_id)
 
         if not is_id_valid(post_id):
             raise InvalidFieldError("Post id is invalid", ["post_id"])
@@ -75,8 +76,6 @@ class Post(object):
         post.update()
         return post
 
-
-
     @classmethod
     def get_post(cls, post_id):
         if not is_id_valid(post_id):
@@ -84,7 +83,7 @@ class Post(object):
         return DBPost.get_by_id(post_id)
 
     @classmethod
-    def get_posts(cls, page=1, limit = 10):
+    def get_posts(cls, page=1, limit=10):
         """
         Get many post at a time, order by post time
         :param page: page index begin at 1
@@ -94,25 +93,50 @@ class Post(object):
         if not is_id_valid(page):
             page = 1
 
-        if int(limit) <=0 or int(limit) >=50:
+        if int(limit) <= 0 or int(limit) >= 50:
             limit = 10
 
-        start = (page-1)*limit + 1 # id in sql start at 1
+        start = (page - 1) * limit + 1  # id in sql start at 1
         post_list = DBPost.get(start=start, limit=limit, order_by="time desc")
         return post_list
 
     @classmethod
-    def get_list_post(cls, page = 0, post_each_page=20):
+    def get_list_post(cls, page=0, post_each_page=20):
         pass
 
     @classmethod
-    def get_post_by_category(cls, category_name, page=0, post_each_page=20):
-        pass
+    def find_post_by_category(cls, category_name, page=0, limit=10):
+        """
+        Find all post publish by specific author
+
+        :param author_id: id of author to find post by
+        :param page: page index begin at 1
+        :param limit:
+        :return:
+        """
+
+        if not category_name:
+            raise InvalidFieldError("category cannot be empty", ["category"])
+        cat_slug = get_slug_from_string(category_name)
+        args = {"categories": "`%s`"%cat_slug}
+
+        # validate pagination info
+        if not is_id_valid(page):
+            page = 1
+
+        if int(limit) <= 0 or int(limit) >= 50:
+            limit = 10
+
+        start = (page - 1) * limit + 1  # id in sql start at 1
+        post_list = DBPost.search(search_dict=args, start=start, limit=limit, order_by="time desc")
+        return post_list
 
     @classmethod
     def find_post_by_author(cls, author_id, page=1, limit=10):
         """
-        Get many post at a time, order by post time
+        Find all post publish by specific author
+
+        :param author_id: id of author to find post by
         :param page: page index begin at 1
         :param limit:
         :return:
@@ -129,14 +153,14 @@ class Post(object):
 
         args = {"user_id": author_id}
 
-        #validate pagination info
+        # validate pagination info
         if not is_id_valid(page):
             page = 1
 
-        if int(limit) <=0 or int(limit) >=50:
+        if int(limit) <= 0 or int(limit) >= 50:
             limit = 10
 
-        start = (page-1)*limit + 1 # id in sql start at 1
+        start = (page - 1) * limit + 1  # id in sql start at 1
         post_list = DBPost.get(filter_dict=args, start=start, limit=limit, order_by="time desc")
         return post_list, author
 
@@ -144,7 +168,7 @@ class Post(object):
     def delete_post(cls, user_id, post_id):
         user = DBUser.get_by_id(user_id)
         if not user:
-            raise UserNotFoundError("User with id = %d does not exist" % user_id )
+            raise UserNotFoundError("User with id = %d does not exist" % user_id)
 
         if not is_id_valid(post_id):
             raise InvalidFieldError("Post id is invalid", ["post_id"])
@@ -153,10 +177,8 @@ class Post(object):
         if not post:
             raise PostNotFoundError(post_id=post_id)
 
-        #only allow author and manager to delete post
+        # only allow author and manager to delete post
         if post.author.id != user_id and user.role != "manager":
             raise AccessDeniedError("You don't have permission to delete this post.")
 
         post.delete()
-
-

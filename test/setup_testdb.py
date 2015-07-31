@@ -37,7 +37,8 @@ def set_up_db():
         <p>Sunt quo placeat fugiat nesciunt vel assumenda dolorem incidunt provident eligendi ipsa, quam autem optio id nostrum beatae corporis a. Tempore saepe quod nemo hic magni in veritatis illum natus.</p>
         <p>Et beatae ipsam repellat officiis similique cupiditate distinctio expedita rem at, aut aspernatur, voluptate quibusdam! Voluptatum aut quos porro eos nulla officiis adipisci magnam perferendis, dicta minima quis eligendi enim.</p>
         <p>Sed itaque dignissimos eligendi reprehenderit, nesciunt ducimus voluptates dolores suscipit fugit ipsam aperiam praesentium laborum odit qui libero ipsum tempora, eos quis hic, sapiente perspiciatis amet labore voluptatibus alias. Vitae.</p>""",
-        "user_id": 1
+        "user_id": 1,
+        "categories":"`c++`,`python`"
     }
 
     post = Post(**args)
@@ -63,6 +64,7 @@ def set_up_db():
 
     args["title"] = "Post Hello title"
     args["user_id"] = 1
+    args["categories"] = "`non-it`"
 
     post = Post(**args)
     post.save()
@@ -75,6 +77,7 @@ def set_up_db():
 
     args["title"] = "First day at Moscow"
     args["user_id"] = 2
+    args["categories"] = "`journey`, `non-it`"
 
     post = Post(**args)
     post.save()
@@ -93,6 +96,7 @@ def set_up_db():
 
     args["title"] = "My new Phone"
     args["user_id"] = 3
+    args["categories"] = "`photo`, `non-it`"
 
     post = Post(**args)
     post.save()
@@ -105,6 +109,7 @@ def set_up_db():
 
     args["title"] = "List of useful app for Blackberry"
     args["user_id"] = 3
+    args["categories"] = "`uncategorized`"
 
     post = Post(**args)
     post.save()
