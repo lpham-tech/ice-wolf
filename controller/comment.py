@@ -58,7 +58,7 @@ class Comment(object):
 
         # only allow commenter to update comment
         if comment.user_id != user_id:
-            raise  AccessDeniedError("You cannot edit other comment")
+            raise  AccessDeniedError("You cannot edit others comment")
 
         comment.content = content
         try:
@@ -68,5 +68,28 @@ class Comment(object):
             raise
 
     @classmethod
-    def delete_comment(cls, comment_id):
-        pass
+    def delete_comment(cls, user_id, comment_id):
+        # not necessary to check user_id
+        # if not is_id_valid(user_id):
+        #     raise InvalidFieldError("user id is invalid", ["user_id"])
+
+        if not is_id_valid(comment_id):
+            raise InvalidFieldError("comment id is invalid", ["comment_id"])
+
+        user = DBUser.get_by_id(user_id)
+        if not user:
+            raise UserNotFoundError("User with id = %d  does not exist" % user_id)
+
+        comment = DBComment.get_by_id(comment_id)
+        if not comment:
+            raise CommentNotFoundError(comment_id=comment_id)
+
+        # only allow commenter/post author to delete comment
+        if comment.user_id != user_id and comment.post.id != user_id:
+            raise  AccessDeniedError("You cannot delete others comment")
+
+        try:
+            comment.delete()
+            return comment
+        except:
+            raise
