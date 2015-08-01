@@ -1,7 +1,7 @@
 __author__ = 'bluzky'
-from flask import session, request, render_template, redirect, url_for
+from flask import session, request, render_template, redirect, url_for, abort
 from business.user import User
-from lib.exceptions import InvalidFieldError, DuplicatedError
+from lib.exceptions import InvalidFieldError, DuplicatedError, UserNotActivatedError, UserNotFoundError
 
 def register_user():
     error = None
@@ -33,7 +33,25 @@ def register_user():
 
 
 def login():
-    pass
+    error = None
+    args={
+        "email" : request.form["email"],
+        "password" : request.form["password"]
+    }
+
+    try:
+        user = User.verify_user(**args)
+        if user:
+            session["user"] = user
+            session["logged_in"] = True
+            return redirect("/")
+        else:
+            error = "Email or password does not match"
+    except UserNotActivatedError as e:
+        error = e.message
+    except:
+        abort(404)
+    return render_template("login.html",error_msg=error)
 
 def logout():
     pass

@@ -3,10 +3,10 @@
 <head>
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="bootstrap3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootflat/css/bootflat.min.css">
+    <link rel="stylesheet" href="static/bootstrap3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/bootflat/css/bootflat.min.css">
     <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="static/css/style.css">
 </head>
 
 <body >
@@ -21,20 +21,25 @@
     <!-- Main content -->
     <div class="container">
         <div class="row single-card">
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <div class="alert alert-danger" role="alert">{{error_msg}}</div>
+            </div>
             <div class="col-xs-12 col-md-4 col-md-offset-4">
                 <div class="card">
                     <div class="card-title-bar">
                         Sign in
                     </div>
                     <div class="card-content">
-                        <form method="POST">
+                        <form method="POST" data-togle="validator">
                             <div class="form-group">
                                 <label for="email">Email address</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email" data-error="Oops, that email address is invalid" required>
+                                <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" data-minlength=6 required>
+                                <div class="help-block with-errors"></div>
                             </div>
                             <div class="checkbox">
                                 <input type="checkbox" id="remember" name="remember">
@@ -49,50 +54,22 @@
         </div>
     </div>
 
-
     <!-- Footer -->
     <footer>
         <p class="copyright"><span>Powered by <a href="/">Dzung Nguyen</a></span></p>
     </footer>
 
-
     <!-- Bootstrap -->
     <!-- <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script> -->
-    <script src="js/jquery-1.11.0.min.js"></script>
-    <script src="bootstrap3.3.5/js/bootstrap.min.js"></script>
+    <script src="static/js/jquery-1.11.0.min.js"></script>
+    <script src="static/bootstrap3.3.5/js/bootstrap.min.js"></script>
 
     <!-- Bootflat's JS files.-->
-    <script src="bootflat/js/icheck.min.js"></script>
-    <script src="bootflat/js/jquery.fs.selecter.min.js"></script>
-    <script src="bootflat/js/jquery.fs.stepper.min.js"></script>
-    <script type="text/javascript">
-    (jQuery, window), !function (a) {
-        a(function () {
-            a(".tooltip-demo").tooltip({
-                selector : "[data-toggle=tooltip]",
-                container : "body"
-            }),
-            a("input[type='number']").stepper(),
-            a(".selecter_1").selecter(),
-            a(".selecter_2").selecter(),
-            a(".selecter_3").selecter(),
-            a(".selecter_4").selecter(),
-            a(".selecter_5").selecter(),
-            a(".selecter_6").selecter(),
-            a(".checkbox input").iCheck({
-                checkboxClass : "icheckbox_flat",
-                increaseArea : "20%"
-            }),
-            a(".radio input").iCheck({
-                radioClass : "iradio_flat",
-                increaseArea : "20%"
-            }),
-            a("#accordion1").collapse(),
-            a("#accordion2").collapse()
-        })
-    }
-    (window.jQuery);
-    </script>
-
+    <script src="static/bootflat/js/icheck.min.js"></script>
+    <!-- <script src="static/bootflat/js/jquery.fs.selecter.min.js"></script>
+    <script src="static/bootflat/js/jquery.fs.stepper.min.js"></script>
+    -->
+    <script src="static/js/validator.min.js"></script>
+    <script src="static/js/application.js"></script>
 </body>
 </html>

@@ -26,6 +26,10 @@ class UserNotFoundError(Exception):
 
         super(UserNotFoundError, self).__init__(msg)
 
+class UserNotActivatedError(Exception):
+    def __init__(self):
+        super(UserNotActivatedError, self).__init__("User has not been activated")
+
 class PostNotFoundError(Exception):
     def __init__(self, msg = None, post_id=None):
         if post_id:

@@ -22,12 +22,15 @@ def register_handler():
 @app.route("/login", methods=["GET", "POST"])
 def login_handler():
     if request.method == 'GET':
-        return render_template("login.html")
+        if "logged_in" in session:
+            return redirect("/")
+        else:
+            return render_template("login.html")
     elif request.method == 'POST':
-        return "OK"
+        return user_controller.login()
 
 
-@app.route("/login", methods=["GET"])
+@app.route("/logout", methods=["GET"])
 def logout_handler():
     # clean session
     return redirect(url_for('/'))

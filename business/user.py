@@ -3,7 +3,7 @@ import hashlib
 
 from persistent.user import User as DBUser
 from lib.utils import is_email_address_valid
-from lib.exceptions import InvalidFieldError, AccessDeniedError, UserNotFoundError
+from lib.exceptions import InvalidFieldError, AccessDeniedError, UserNotFoundError, UserNotActivatedError
 
 
 class User(object):
@@ -46,7 +46,6 @@ class User(object):
 
     @classmethod
     def verify_user(cls, email, password):
-
         # validate input
         if not is_email_address_valid(email) or len(password) < 6:
             return None
@@ -55,11 +54,24 @@ class User(object):
             "email": email.lower(),
         }
 
-        password_hashed = hashlib.md5(password).hexdigest(),
+        password_hashed = hashlib.md5(password).hexdigest()
         user = DBUser.get_one(arg)
 
-        if user and user.password == password_hashed[0]:
-            return user
+        if user :
+            if user.activated:
+                if user.password == password_hashed:
+                    # only return some basic info
+                    user_info = {
+                        "id":user.id,
+                        "email":user.email,
+                        "first_name": user.first_name,
+                        "last_name": user.last_name
+                    }
+                    return user_info
+                else:
+                    return None
+            else:
+                raise UserNotActivatedError()
         else:
             return None
 
