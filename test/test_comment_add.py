@@ -1,6 +1,6 @@
 __author__ = 'bluzky'
 import unittest
-from model.comment import Comment as DBComment
+from persistent.comment import Comment as DBComment
 from controller.comment import Comment
 from base import WbTescase
 from lib.exceptions import InvalidFieldError, PostNotFoundError

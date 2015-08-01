@@ -1,7 +1,7 @@
 __author__ = 'bluzky'
-from model.comment import Comment as DBComment
-from model.post import Post as DBPost
-from model.user import User as DBUser
+from persistent.comment import Comment as DBComment
+from persistent.post import Post as DBPost
+from persistent.user import User as DBUser
 from lib.utils import is_id_valid
 from lib.exceptions import InvalidFieldError, PostNotFoundError, UserNotFoundError, CommentNotFoundError, AccessDeniedError
 

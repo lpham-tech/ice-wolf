@@ -4,7 +4,7 @@ import hashlib
 
 from base import WbTescase
 from controller.user import User
-from model.user import User as DBUser
+from persistent.user import User as DBUser
 from lib.exceptions import InvalidFieldError
 
 

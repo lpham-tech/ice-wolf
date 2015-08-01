@@ -3,7 +3,7 @@ import unittest
 
 from base import WbTescase
 from controller.post import Post
-from model.post import Post as DBPost
+from persistent.post import Post as DBPost
 from lib.exceptions import InvalidFieldError, AccessDeniedError, PostNotFoundError, UserNotFoundError
 
 class TestUpdatePost(WbTescase):

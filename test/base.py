@@ -3,9 +3,9 @@ from unittest import TestCase
 from config import db
 import time
 import setup_testdb
-from model.user import User
-from model.post import Post
-from model.comment import Comment
+from persistent.user import User
+from persistent.post import Post
+from persistent.comment import Comment
 
 class WbTescase(TestCase):
     @classmethod

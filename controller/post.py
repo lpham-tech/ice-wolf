@@ -1,8 +1,8 @@
 __author__ = 'bluzky'
 from datetime import datetime
 
-from model.post import Post as DBPost
-from model.user import User as DBUser
+from persistent.post import Post as DBPost
+from persistent.user import User as DBUser
 from lib.exceptions import InvalidFieldError, AccessDeniedError, UserNotFoundError, PostNotFoundError
 from lib.utils import is_id_valid, get_slug_from_string
 

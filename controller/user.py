@@ -1,7 +1,7 @@
 __author__ = 'bluzky'
 import hashlib
 
-from model.user import User as DBUser
+from persistent.user import User as DBUser
 from lib.utils import is_email_address_valid
 from lib.exceptions import InvalidFieldError, AccessDeniedError, UserNotFoundError
 

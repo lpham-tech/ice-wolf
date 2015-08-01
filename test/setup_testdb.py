@@ -1,7 +1,7 @@
 __author__ = 'bluzky'
-from model.post import Post
-from model.user import User
-from model.comment import Comment
+from persistent.post import Post
+from persistent.user import User
+from persistent.comment import Comment
 import hashlib
 def set_up_db():
     args = {
