@@ -33,6 +33,7 @@
                     </div>
                     <div class="card-content">
                         <form method="POST" id="register-form" data-toggle="validator">
+                            <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
                             <div class="form-group">
                                 <label for="first_name">First name</label>
                                 <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First name" required>
