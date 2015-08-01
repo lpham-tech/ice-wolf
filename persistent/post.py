@@ -1,7 +1,6 @@
 __author__ = 'bluzky'
-from config import db
 from datetime import  datetime
-from base import ModelMethods
+from base import db, ModelMethods
 
 class Post(db.Model, ModelMethods):
     _table_name = 'post'

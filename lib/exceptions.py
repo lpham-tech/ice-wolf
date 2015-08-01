@@ -5,6 +5,13 @@ class InvalidFieldError(Exception):
         self.error_fields = error_fields
         super(InvalidFieldError, self).__init__(msg)
 
+class DuplicatedError(Exception):
+    def __init__(self, error_field, value):
+        self.error_field = error_field
+        self.error_value = value
+        msg = "{0} with value {1} has ben used".format(error_field, value)
+        super(DuplicatedError, self).__init__(msg)
+
 class UserNotFoundError(Exception):
     def __init__(self, msg=None, name=None, email=None):
 

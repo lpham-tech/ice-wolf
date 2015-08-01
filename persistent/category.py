@@ -1,5 +1,5 @@
 __author__ = 'bluzky'
-from config import db
+from base import db
 
 class Category(db.Model):
     _table_name = 'category'

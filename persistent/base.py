@@ -1,6 +1,12 @@
 __author__ = 'bluzky'
-from config import db
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
+
+from config import TESTING
+if TESTING:
+    from config import db
+else:
+    db = SQLAlchemy()
 
 class ModelMethods(object):
 

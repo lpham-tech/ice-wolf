@@ -1,6 +1,5 @@
 __author__ = 'bluzky'
-from config import db
-from base import ModelMethods
+from base import db, ModelMethods
 
 class User(db.Model, ModelMethods):
     _table_name = 'user'

@@ -1,6 +1,7 @@
 __author__ = 'bluzky'
 from unittest import TestCase
-from config import db
+from persistent import db
+
 import time
 import setup_testdb
 from persistent.user import User

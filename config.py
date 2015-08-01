@@ -3,6 +3,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+TESTING = False
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'

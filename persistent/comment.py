@@ -1,8 +1,7 @@
 __author__ = 'bluzky'
 from datetime import datetime
 
-from config import db
-from base import ModelMethods
+from base import db, ModelMethods
 
 
 class Comment(db.Model, ModelMethods):
