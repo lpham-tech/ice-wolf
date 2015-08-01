@@ -2,7 +2,7 @@ __author__ = 'bluzky'
 import unittest
 
 from base import WbTescase
-from controller.post import Post
+from business.post import Post
 from persistent.post import Post as DBPost
 from lib.exceptions import AccessDeniedError, PostNotFoundError
 

@@ -2,8 +2,8 @@ __author__ = 'bluzky'
 import unittest
 
 from base import WbTescase
-from controller.post import Post
-from lib.exceptions import UserNotFoundError, InvalidFieldError
+from business.post import Post
+from lib.exceptions import InvalidFieldError
 
 
 class TestFindPosByCategory(WbTescase):

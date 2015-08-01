@@ -1,7 +1,7 @@
 __author__ = 'bluzky'
 import unittest
 from base import WbTescase
-from controller.user import User
+from business.user import User
 from lib.exceptions import InvalidFieldError, UserNotFoundError, AccessDeniedError
 
 

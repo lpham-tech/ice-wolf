@@ -3,7 +3,7 @@ import unittest
 import hashlib
 
 from base import WbTescase
-from controller.user import User
+from business.user import User
 from persistent.user import User as DBUser
 from lib.exceptions import InvalidFieldError
 

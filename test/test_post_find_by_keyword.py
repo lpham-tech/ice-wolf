@@ -1,9 +1,8 @@
 __author__ = 'bluzky'
-__author__ = 'bluzky'
 import unittest
 
 from base import WbTescase
-from controller.post import Post
+from business.post import Post
 from lib.exceptions import InvalidFieldError
 
 
