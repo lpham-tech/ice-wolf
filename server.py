@@ -14,7 +14,10 @@ def homepage_handler():
 @app.route("/register", methods=["GET", "POST"])
 def register_handler():
     if request.method == 'GET':
-        return render_template("register.html")
+        if "logged_in" in session:
+            return redirect("/")
+        else:
+            return render_template("register.html")
     elif request.method == 'POST':
         return user_controller.register_user()
 
@@ -32,7 +35,8 @@ def login_handler():
 
 @app.route("/logout", methods=["GET"])
 def logout_handler():
-    # clean session
+    session.pop("user", None)
+    session.pop("logged_in", None)
     return redirect(url_for('/'))
 
 

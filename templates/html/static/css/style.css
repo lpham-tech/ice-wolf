@@ -30,7 +30,7 @@ header
     text-align: center
 }
 
-header > .logo, header .large-logo, .brand
+header > .logo, .large-logo, .brand
 {
     font-family: Lobster, Tahoma, sans-serif;
     font-size: 2em;
@@ -53,16 +53,16 @@ header > .logo
     color: #37BC9B;
 }
 
-header .large-logo
+.large-logo
 {
     font-size: 4em;
-    height: 120px;
+    height: 150px;
     width: 100%;
-    padding-top: 30px;
-
+    padding: 20px 0 10px;
+    text-align: center;
 }
 
-header .large-logo > *
+.large-logo > *
 {
     vertical-align: middle;
 }

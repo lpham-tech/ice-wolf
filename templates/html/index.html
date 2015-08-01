@@ -3,21 +3,25 @@
 <head>
     <title>Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="bootstrap3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootflat/css/bootflat.min.css">
+    <link rel="stylesheet" href="static/bootstrap3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/bootflat/css/bootflat.min.css">
     <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic&subset=latin,vietnamese' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/prism.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="static/css/prism.css">
+    <link rel="stylesheet" href="static/css/style.css">
 </head>
 
 <body >
     <!-- Header -->
-    <header class="hidden-xs">
-        <div class="large-logo">
+    <header class =" hidden-xs">
+        <div class="logo">
             <a href="/">Ice Wolf</a>
         </div>
+        <div style="clear:both;"></div>
     </header>
+    <div class="large-logo hidden-xs">
+        <a href="/">Ice Wolf</a>
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 col-sm-12">
@@ -131,7 +135,7 @@
                     <li><a href="#">3</a></li>
                     <li><a href="#">4</a></li>
                     <li ><a href="#">5</a></li>
-                    <li "><a href="#">NEXT</a></li>
+                    <li ><a href="#">NEXT</a></li>
                 </ul>
             </div>
         </div>
@@ -146,43 +150,14 @@
 
     <!-- Bootstrap -->
     <!-- <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script> -->
-    <script src="js/jquery-1.11.0.min.js"></script>
-    <script src="bootstrap3.3.5/js/bootstrap.min.js"></script>
+    <script src="static/js/jquery-1.11.0.min.js"></script>
+    <script src="static/bootstrap3.3.5/js/bootstrap.min.js"></script>
 
     <!-- Bootflat's JS files.-->
-    <script src="bootflat/js/icheck.min.js"></script>
-    <script src="bootflat/js/jquery.fs.selecter.min.js"></script>
-    <script src="bootflat/js/jquery.fs.stepper.min.js"></script>
-    <script src="editor/trumbowyg-2.0.0/trumbowyg.min.js"></script>
-    <script src="js/prism.js"></script>
-    <script type="text/javascript">
-        (jQuery, window), !function (a) {
-            a(function () {
-                a(".tooltip-demo").tooltip({
-                    selector : "[data-toggle=tooltip]",
-                    container : "body"
-                }),
-                a("input[type='number']").stepper(),
-                a(".selecter_1").selecter(),
-                a(".selecter_2").selecter(),
-                a(".selecter_3").selecter(),
-                a(".selecter_4").selecter(),
-                a(".selecter_5").selecter(),
-                a(".selecter_6").selecter(),
-                a(".checkbox input").iCheck({
-                    checkboxClass : "icheckbox_flat",
-                    increaseArea : "20%"
-                }),
-                a(".radio input").iCheck({
-                    radioClass : "iradio_flat",
-                    increaseArea : "20%"
-                }),
-                a("#accordion1").collapse(),
-                a("#accordion2").collapse()
-            })
-        }
-        (window.jQuery);
-    </script>
+    <script src="static/bootflat/js/icheck.min.js"></script>
+    <script src="static/js/prism.js"></script>
+    <script src="static/js/application.js"></script>
+
 
 </body>
 </html>
