@@ -37,7 +37,7 @@ def login_handler():
 def logout_handler():
     session.pop("user", None)
     session.pop("logged_in", None)
-    return redirect(url_for('/'))
+    return redirect("/")
 
 
 @app.route("/post/<int:post_id>")
