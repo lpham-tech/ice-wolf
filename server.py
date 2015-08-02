@@ -4,6 +4,8 @@ from config import app
 from persistent import db
 from controller import user_controller
 from controller import post_controller
+from controller import comment_controller
+from lib import login_required
 import uuid
 
 
@@ -15,10 +17,13 @@ def homepage(page = 1):
 
 
 @app.route("/register", methods=["GET", "POST"])
-def register_handler():
+def register():
     if request.method == 'GET':
         if "logged_in" in session:
-            return redirect("/")
+            if request.args["next"]:
+                return redirect(request.args["next"])
+            else:
+                return redirect("/")
         else:
             return render_template("register.html")
     elif request.method == 'POST':
@@ -26,10 +31,13 @@ def register_handler():
 
 
 @app.route("/login", methods=["GET", "POST"])
-def login_handler():
+def login():
     if request.method == 'GET':
         if "logged_in" in session:
-            return redirect("/")
+            if request.args["next"]:
+                return redirect(request.args["next"])
+            else:
+                return redirect("/")
         else:
             return render_template("login.html")
     elif request.method == 'POST':
@@ -37,7 +45,7 @@ def login_handler():
 
 
 @app.route("/logout", methods=["GET"])
-def logout_handler():
+def logout():
     session.pop("user", None)
     session.pop("logged_in", None)
     return redirect("/")
@@ -65,10 +73,10 @@ def edit_post_handler(post_id):
         # do add post
         return "OK"
 
-
-@app.route("/add_comment", methods=["POST"])
-def add_comment_handler():
-    return "OK"
+@app.route("/comment", methods=["POST"])
+@login_required
+def comment():
+    return comment_controller.add_comment()
 
 
 @app.route("/category/<name>", methods=["GET"])

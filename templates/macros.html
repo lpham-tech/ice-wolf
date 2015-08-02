@@ -28,10 +28,10 @@
 {%macro top_nav()%}
 <nav>
     {%if not session.logged_in %}
-    <a href="/login">
+    <a href="{{url_for('login', next=request.url)}}">
         <button class="btn-simple btn-active">Sign in</button>
     </a>
-    <a href="/register">
+    <a href="{{url_for('register', next=request.url)}}">
         <button class="btn-simple">Register</button>
     </a>
     {%else%}

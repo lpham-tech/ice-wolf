@@ -158,12 +158,6 @@ header>nav>.dropdown
 {
     font-size: 2.5em;
 }
-
-.post-info
-{
-    text-align: center;
-}
-
 .post-info > div
 {
     text-transform: uppercase;
@@ -212,6 +206,12 @@ pre
     text-align: center;
     margin-top: 50px;
 }
+
+.single-post .post-info
+{
+    text-align: center;
+}
+
 
 .single-post img, .post-item img
 {

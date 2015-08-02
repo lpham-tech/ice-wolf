@@ -75,22 +75,27 @@
         </div>
 
         <!-- Comment box -->
+        {%if session.logged_in%}
         <div class="row">
             <div class="col-md-8 col-md-offset-2 col-sm-12 comment-form">
                 <h4>Leave your comment</h4>
-                <form method = "POST">
-                    <textarea id="comment-box"> </textarea>
-                    <button class="btn btn-mint">POST COMMENT</button>
+                <form method = "POST" action="{{url_for('comment')}}" data-toggle="validator">
+                    <input type="hidden" name="post_id" value="{{post.id}}">
+                    <input type="hidden" name="next" value="{{request.url}}">
+                    <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+                    <textarea id="comment-box" data-minlength="10" name="comment"> </textarea>
+                    <button type="submit" class="btn btn-simple">POST COMMENT</button>
                 </form>
             </div>
         </div>
+        {%endif%}
 
         <!-- All user comment -->
         <div class="row">
             <div class="col-md-8 col-md-offset-2 col-sm-1">
                 <h4>{{post.comments.count()}} {%if post.comments.count() > 1%}comments{%else%}comment{%endif%}</h4>
                 <ul class="comment-list">
-                    {%for comment in post.comments.all()%}
+                    {%for comment in post.comments.order_by("time desc").all()%}
                     <li class="comment">
                         {%if comment.user.avatar%}
                         <img src="{{comment.user.avatar}}" alt="avatar" width="64" height="64" class="img-rounded commenter-avatar">

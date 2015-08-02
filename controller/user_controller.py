@@ -16,7 +16,10 @@ def register_user():
 
     try:
         User.add(**args)
-        return redirect("/")
+        if request.args["next"]:
+            return redirect(request.args["next"])
+        else:
+            return redirect("/")
     except DuplicatedError as e:
         error = e.message
     except InvalidFieldError as e:
@@ -43,7 +46,10 @@ def login():
         if user:
             session["user"] = user
             session["logged_in"] = True
-            return redirect("/")
+            if request.args["next"]:
+                return redirect(request.args["next"])
+            else:
+                return redirect("/")
         else:
             error = "Email or password does not match"
     except UserNotActivatedError as e:
