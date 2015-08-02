@@ -20,6 +20,10 @@ class User(db.Model, ModelMethods):
     posts = db.relationship('Post', backref=db.backref('author', lazy='select'), lazy='dynamic')
     comments = db.relationship('Comment', backref=db.backref('user', lazy='select'), lazy='dynamic')
 
+    @property
+    def full_name(self):
+        return "%s %s" % (self.first_name, self.last_name)
+
     def __init__(self, email, password, first_name, last_name, avatar=None, brief=None, role=None):
         #self.username = username
         self.email = email

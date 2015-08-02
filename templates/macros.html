@@ -1,0 +1,63 @@
+{%macro top_bar()%}
+<nav>
+    {%if not session.logged_in %}
+    <a href="/login">
+        <button class="btn-simple btn-active">Sign in</button>
+    </a>
+    <a href="/register">
+        <button class="btn-simple">Register</button>
+    </a>
+    {%else%}
+    <a href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Post</a>
+
+    <div class="dropdown">
+        <button class="btn btn-link" type="button" id="application-menu" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="true">
+            {{session.user.first_name}}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="application-menu">
+            <li class="disabled"><a href="#">Edit profile</a></li>
+            <li class="disabled"><a href="#">Change password</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/logout">Sign out</a></li>
+
+        </ul>
+    </div>
+    {%endif%}
+</nav>
+{%endmacro%}
+
+<!-- Render a introduction of a post on home page-->
+{%macro render_short_post(post, post_endpoint)%}
+<li  class="post-item">
+    <h4 class="post-title"><a href="{{url_for(post_endpoint, post_id=post.id)}}">{{post.title}}</a></h4>
+
+    <div class="post-info">
+        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+
+        <div class="post-date">{{post.time.strftime("%B %e, %Y")}}</div>
+        <div class="author-name"><b>By</b>: <a href="#">{{post.author.full_name}}</a></div>
+    </div>
+    <div class="post-summary">
+       {{post.content|safe}}
+    </div>
+    <div style="width: 100%; text-align:center;">
+        <a href="{{url_for(post_endpoint, post_id=post.id)}}">
+            <button class="btn-simple">Read more</button>
+        </a>
+    </div>
+</li>
+{%endmacro%}
+
+{%macro render_pagination(pagination, endpoint)%}
+<ul class="pagination">
+    {%for page in pagination.iter_pages()%}
+    {%if page == pagination.page%}
+    <li class="active"><a href="{{url_for(endpoint,page=page)}}">{{page}}</a></li>
+    {%else%}
+    <li><a href="{{url_for(endpoint,page=page)}}">{{page}}</a></li>
+    {%endif%}
+    {%endfor%}
+</ul>
+{%endmacro%}

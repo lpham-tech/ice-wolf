@@ -3,12 +3,15 @@ from flask import request, redirect, url_for, render_template, session, abort
 from config import app
 from persistent import db
 from controller import user_controller
+from controller import post_controller
 import uuid
 
 
-@app.route("/")
-def homepage_handler():
-    return render_template("index.html")
+@app.route("/", methods=["GET", "POST"])
+@app.route("/index", methods=["GET", "POST"])
+@app.route("/index/<int:page>", methods=["GET", "POST"])
+def homepage(page = 1):
+    return post_controller.get_latest_post(page=page)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -41,7 +44,7 @@ def logout_handler():
 
 
 @app.route("/post/<int:post_id>")
-def show_post(post_id):
+def post(post_id):
     return render_template("single_post.html")
 
 

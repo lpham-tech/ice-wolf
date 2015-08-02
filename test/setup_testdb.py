@@ -225,3 +225,5 @@ def set_up_db():
     cmt_args["user_id"] = 3
     cmt = Comment(**cmt_args)
     cmt.save()
+
+#set_up_db()

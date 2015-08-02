@@ -10,7 +10,7 @@ body{
     margin-bottom: 120px;
 }
 
-a, .dropdown-menu li a, .btn-link
+a, .dropdown-menu li a, .btn-link, .post-title a:hover
 {
     text-decoration: none;
     color: #37BC9B;
@@ -149,9 +149,13 @@ header>nav>.dropdown
 
 /*POST CSS*/
 
-.post-title
+.post-title, .post-title>a
 {
     color: #333;
+}
+
+.post-title
+{
     font-size: 2.5em;
 }
 
