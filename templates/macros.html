@@ -35,7 +35,7 @@
         <button class="btn-simple">Register</button>
     </a>
     {%else%}
-    <a href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Post</a>
+    <a href="{{url_for('add_post')}}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Post</a>
 
     <div class="dropdown">
         <button class="btn btn-link" type="button" id="application-menu" data-toggle="dropdown" aria-haspopup="true"

@@ -378,11 +378,12 @@ pre
 .trumbowyg-box, .trumbowyg-editor
 {
     width: 100%;
+    min-height: 500px;
 }
 
 .new-post-title
 {
-    font-size: 2em;
+    font-size: 1.5em;
     height: 43px;
 }
 

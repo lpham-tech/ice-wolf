@@ -1,5 +1,5 @@
 __author__ = 'bluzky'
-from flask import abort, render_template
+from flask import abort, render_template, request, session, redirect, url_for
 from business.post import Post
 
 PER_PAGE = 10
@@ -23,3 +23,19 @@ def show_single_post(post_id):
     except Exception as e:
         #TODO: render 404 page
         abort(404)
+
+def add_post():
+    try:
+        args={
+            "user_id": session["user"]["id"],
+            "title":request.form["title"] or None,
+            "content": request.form["content"] or None,
+            "categories": request.form.getlist("categories") or None,
+            "tags": request.form["tags"] or None,
+            "feature_image":request.form["feature_image"] or None,
+        }
+        post = Post.add_post(**args)
+
+        return redirect(url_for('post', post_id=post.id))
+    except:
+        abort(400)

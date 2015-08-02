@@ -16,7 +16,7 @@ class Post(db.Model, ModelMethods):
 
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
-    def __init__(self, user_id, title, content, feature_image = None, post_date=None, tags=None, categories=None, draft=False):
+    def __init__(self, user_id, title, content, feature_image = None, post_date=None, tags=None, categories=(), draft=False):
         self.title = title
         self.content = content
         self.user_id = user_id
@@ -30,7 +30,7 @@ class Post(db.Model, ModelMethods):
         if tags:
             self.tags = tags
         if categories:
-            self.categories = categories
+            self.categories = ",".join("`%s`"%cat for cat in categories)
 
         self.draft = draft
 

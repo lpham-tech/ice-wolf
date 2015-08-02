@@ -5,6 +5,7 @@ from persistent.post import Post as DBPost
 from persistent.user import User as DBUser
 from lib.exceptions import InvalidFieldError, AccessDeniedError, UserNotFoundError, PostNotFoundError
 from lib.utils import is_id_valid, get_slug_from_string
+import default
 
 
 class Post(object):
@@ -20,6 +21,9 @@ class Post(object):
 
         if not content:
             raise InvalidFieldError("Post's content could not be empty", ["content"])
+
+        if not categories:
+            categories = [default.DEFAULT_CATEGORY]
 
         args = {
             "user_id": user_id,
@@ -120,7 +124,7 @@ class Post(object):
         if int(per_page) <= 0 or int(per_page) >= 50:
             per_page = 10
 
-        pagination = DBPost.pagination_get(page=page, per_page=per_page)
+        pagination = DBPost.pagination_get(page=page, per_page=per_page, order_by="time desc")
         return pagination
 
     @classmethod

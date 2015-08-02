@@ -6,6 +6,7 @@ from controller import user_controller
 from controller import post_controller
 from controller import comment_controller
 from lib import login_required
+import default
 import uuid
 
 
@@ -56,13 +57,13 @@ def post(post_id):
     return post_controller.show_single_post(post_id)
 
 
-@app.route("/newpost", methods=["GET", "POST"])
-def add_post_handler():
+@app.route("/publish", methods=["GET", "POST"])
+@login_required
+def add_post():
     if request.method == 'GET':
-        return render_template("add_post.html")
+        return render_template("add_post.html", categories=default.categories)
     elif request.method == 'POST':
-        # do add post
-        return "OK"
+        return post_controller.add_post()
 
 
 @app.route("/edit/<int:post_id>", methods=["GET", "POST"])
