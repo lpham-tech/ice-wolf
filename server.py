@@ -45,7 +45,7 @@ def logout_handler():
 
 @app.route("/post/<int:post_id>")
 def post(post_id):
-    return render_template("single_post.html")
+    return post_controller.show_single_post(post_id)
 
 
 @app.route("/newpost", methods=["GET", "POST"])
@@ -71,8 +71,8 @@ def add_comment_handler():
     return "OK"
 
 
-@app.route("/category/<cat_slug>", methods=["GET"])
-def search_by_category_handler(cat_slug):
+@app.route("/category/<name>", methods=["GET"])
+def category(name):
     return "OK"
 
 

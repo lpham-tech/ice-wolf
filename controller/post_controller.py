@@ -12,3 +12,14 @@ def get_latest_post(page):
         #temporary return 404
         #TODO: render 404 page
         abort(404)
+
+def show_single_post(post_id):
+    try:
+        post = Post.get_post(post_id)
+        if post:
+            return render_template("single_post.html", post=post)
+        else:
+            abort(404)
+    except Exception as e:
+        #TODO: render 404 page
+        abort(404)

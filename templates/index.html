@@ -12,50 +12,20 @@
 </head>
 
 <body >
-    {%from "macros.html" import top_bar, render_pagination, render_short_post%}
+    {%from "macros.html" import top_nav,main_menu, render_pagination, render_short_post%}
     <!-- Header -->
     <header class =" hidden-xs">
         <div class="logo">
             <a href="/">Ice Wolf</a>
         </div>
-        {{top_bar()}}
+        {{top_nav()}}
         <div style="clear:both;"></div>
     </header>
     <div class="large-logo hidden-xs">
         <a href="/">Ice Wolf</a>
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1 col-sm-12">
-                <nav class="navbar navbar-simple">
-                    <div class="container-fluid">
-                        <!-- Brand and toggle get grouped for better mobile display -->
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a class="brand visible-xs-block" href="#">Ice Wolf</a>
-                        </div>
 
-                        <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <ul class="nav navbar-nav">
-                                <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
-                                <li><a href="#">Python</a></li>
-                                <li><a href="#">C/C++</a></li>
-                                <li><a href="#">Javascript</a></li>
-                                <li><a href="#">Projects</a></li>
-                                <li><a href="#">NON IT</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        </div>
-    </div>
+    {{main_menu()}}
 
     <!-- Main content -->
     <div class="container">

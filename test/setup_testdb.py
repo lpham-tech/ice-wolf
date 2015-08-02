@@ -77,7 +77,7 @@ def set_up_db():
 
     args["title"] = "First day at Moscow"
     args["user_id"] = 2
-    args["categories"] = "`journey`, `non-it`"
+    args["categories"] = "`journey`,`non-it`"
 
     post = Post(**args)
     post.save()
@@ -96,7 +96,7 @@ def set_up_db():
 
     args["title"] = "My new Phone"
     args["user_id"] = 3
-    args["categories"] = "`photo`, `non-it`"
+    args["categories"] = "`photo`,`non-it`"
 
     post = Post(**args)
     post.save()

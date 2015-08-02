@@ -1,14 +1,10 @@
 <!doctype html>
 <html>
 <head>
-    <title>Single post</title>
+    {%from "macros.html" import render_css_include, render_script_include, top_nav, main_menu%}
+    <title>{{post.title}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="bootstrap3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootflat/css/bootflat.min.css">
-    <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic&subset=latin,vietnamese' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/prism.css">
-    <link rel="stylesheet" href="css/style.css">
+    {{render_css_include()}}
 </head>
 
 <body >
@@ -17,6 +13,7 @@
         <div class="logo">
             <a href="/">Ice Wolf</a>
         </div>
+        {{top_nav()}}
         <div style="clear:both;"></div>
     </header>
 
@@ -27,84 +24,50 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2 col-sm-12">
                 <article class="single-post">
-                    <h3 class="post-title">Post title here</h3>
+                    <h3 class="post-title">{{post.title}}</h3>
 
                     <div class="post-info">
                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                        <div class="post-date">July 28th, 2015</div>
+                        <div class="post-date">{{post.time.strftime("%B %e, %Y")}}</div>
+                        {%if post.categories%}
                         <span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>
                         <div class="categories">
-                            <a href="">Cat1</a>,
-                            <a href="">Cat2</a>,
-                            <a href="">Cat3</a>
+                            {%for cat in post.categories.replace("`","").split(",")%}
+                            <a href="{{url_for('category',name=cat)}}">{{cat}}</a>,
+                            {%endfor%}
                         </div>
+                        {%endif%}
                     </div>
                     <div class="post-content">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus fuga sint, possimus, dolorum quam perferendis veritatis aliquid tenetur, ipsam cupiditate numquam, quas nostrum autem dicta perspiciatis. Culpa nulla placeat facere.
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo nesciunt nobis consequatur beatae obcaecati tenetur qui temporibus corporis veniam modi saepe provident possimus ab facere ipsum, laudantium odit, quisquam officiis.</p>
-                        <pre><code class="language-css">
-                            .logo > a
-                            {
-                                text-decoration: none;
-                                color: #48CFAD;
-                            }
-
-                            .logo > a:hover
-                            {
-                                color: #37BC9B;
-                            }
-
-
-                            header > nav
-                            {
-                                float:right;
-                                padding: 10px 40px 10px 0;
-                            }
-
-                            header > nav > a
-                            {
-                                color: #4FC1E9;
-                                text-transform: capitalize;
-                                padding: 0 10px;
-                            }
-
-                            header>nav>.dropdown
-                            {
-                                display: inline-block;
-                                margin: 10px 0px;
-                            }
-
-                            .dropdown-menu
-                            {
-                                background-color: #fefefe;
-                                border: solid 1px #eee;
-                            }
-                        </code></pre>
-                        <p>Impedit incidunt hic inventore, omnis necessitatibus quae expedita. Quasi at et, consectetur in facere totam nisi laboriosam fugiat voluptatum, necessitatibus accusamus cum dolore cupiditate natus labore quia maiores mollitia numquam.</p>
-                        <p>Repellat tempora esse suscipit doloribus molestiae officiis rem delectus excepturi possimus, quisquam maiores architecto, natus mollitia. Explicabo laborum quae in, voluptatum, mollitia exercitationem natus et inventore quis, nesciunt tenetur nam.</p>
-                        <p>Ut sapiente explicabo, quo et voluptate maiores vitae. Deleniti temporibus libero dolor dignissimos inventore, quam aspernatur iste rerum ullam, odit quae error nisi suscipit molestias magni. Quasi sunt, pariatur eum.</p>
+                    {{post.content|safe}}
                     </div>
 
+                    {%if post.tags%}
                     <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
                     <div class="row tags">
-                        <a href=""><span class="label label-tag">Tag1</span></a>
-                        <a href=""><span class="label label-tag">Tag2</span></a>
-                        <a href=""><span class="label label-tag">Tag3</span></a>
-                        <a href=""><span class="label label-tag">Tag4</span></a>
+                        {%for tag in post.tags.split(",")%}
+                        <a href="#"><span class="label label-tag">{{tag}}</span></a>
+                        {%endfor%}
                     </div>
+                    {%endif%}
+
                     <!-- Autho information -->
                     <div class="row author-about">
                         <!-- Author avatar -->
                         <div class="author-avatar">
                             <a href="#">
-                                <img src="img/ava.jpg" width="128" height="128" alt="Dzung Nguyen" class="img-rounded">
+                                {%if post.author.avatar%}
+                                <img src="{{post.author.avatar}}" width="128" height="128" alt="{{post.author.name}}" class="img-rounded">
+                                {%else%}
+                                <img src="/static/img/no_ava_128.png" width="128" height="128" alt="{{post.author.name}}" class="img-rounded">
+                                {%endif%}
                             </a>
                         </div>
 
                         <!-- Author name and description -->
                         <div class="col-xs-8 col-md-9">
-                            <h4 class="author-name">Dzung Nguyen</h4>
-                            <p class="author-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint in voluptate eligendi, obcaecati quod eius quia quidem iste cupiditate magnam nesciunt voluptatibus tenetur rerum aliquam libero voluptas inventore repellendus animi.</p>
+                            <a href="#"><h4 class="author-name">{{post.author.full_name}}</h4></a>
+                            <p class="author-description">{{post.author.brief}}</p>
                         </div>
                     </div>
                 </article>
@@ -125,67 +88,25 @@
         <!-- All user comment -->
         <div class="row">
             <div class="col-md-8 col-md-offset-2 col-sm-1">
-                <h4>7 comments</h4>
+                <h4>{{post.comments.count()}} {%if post.comments.count() > 1%}comments{%else%}comment{%endif%}</h4>
                 <ul class="comment-list">
+                    {%for comment in post.comments.all()%}
                     <li class="comment">
-                        <img src="img/ava.jpg" alt="avatar" width="64" class="img-rounded commenter-avatar">
+                        {%if comment.user.avatar%}
+                        <img src="{{comment.user.avatar}}" alt="avatar" width="64" height="64" class="img-rounded commenter-avatar">
+                        {%else%}
+                        <img src="/static/img/no_ava_64.png" alt="avatar" width="64" height="64" class="img-rounded commenter-avatar">
+                        {%endif%}
                         <div class="col-md-10 col-xs-8">
-                            <div class="commenter-name">Dzung Nguyen</div>
-                            <div class="comment-time"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 12 Apr, 2013 at 12:00</div>
+                            <div class="commenter-name">{{comment.user.full_name}}</div>
+                            <div class="comment-time"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> {{comment.time.strftime("%B %e, %Y")}}</div>
                             <div class="comment-content">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit repudiandae voluptatem, possimus nemo voluptatum eaque quae laboriosam, quod unde quibusdam veritatis facere corporis libero inventore placeat, id, totam cum saepe.
+                                {{comment.content}}
                             </div>
                         </div>
                         <div class="clearfix"></div>
                     </li>
-
-                    <li class="comment">
-                        <img src="img/ava.jpg" alt="avatar" width="64" class="img-rounded commenter-avatar">
-                        <div class="col-md-10 col-xs-8">
-                            <div class="commenter-name">Dzung Nguyen</div>
-                            <div class="comment-time"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 12 Apr, 2013 at 12:00</div>
-                            <div class="comment-content">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit repudiandae voluptatem, possimus nemo voluptatum eaque quae laboriosam, quod unde quibusdam veritatis facere corporis libero inventore placeat, id, totam cum saepe.
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-
-                    <li class="comment">
-                        <img src="img/ava.jpg" alt="avatar" width="64" class="img-rounded commenter-avatar">
-                        <div class="col-md-10 col-xs-8">
-                            <div class="commenter-name">Dzung Nguyen</div>
-                            <div class="comment-time"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 12 Apr, 2013 at 12:00</div>
-                            <div class="comment-content">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit repudiandae voluptatem, possimus nemo voluptatum eaque quae laboriosam, quod unde quibusdam veritatis facere corporis libero inventore placeat, id, totam cum saepe.
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-
-                    <li class="comment">
-                        <img src="img/ava.jpg" alt="avatar" width="64" class="img-rounded commenter-avatar">
-                        <div class="col-md-10 col-xs-8">
-                            <div class="commenter-name">Dzung Nguyen</div>
-                            <div class="comment-time"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 12 Apr, 2013 at 12:00</div>
-                            <div class="comment-content">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit repudiandae voluptatem, possimus nemo voluptatum eaque quae laboriosam, quod unde quibusdam veritatis facere corporis libero inventore placeat, id, totam cum saepe.
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-
-                    <li class="comment">
-                        <img src="img/ava.jpg" alt="avatar" width="64" class="img-rounded commenter-avatar">
-                        <div class="col-md-10 col-xs-8">
-                            <div class="commenter-name">Dzung Nguyen</div>
-                            <div class="comment-time"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 12 Apr, 2013 at 12:00</div>
-                            <div class="comment-content">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit repudiandae voluptatem, possimus nemo voluptatum eaque quae laboriosam, quod unde quibusdam veritatis facere corporis libero inventore placeat, id, totam cum saepe.
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
+                    {%endfor%}
                 </ul>
             </div>
         </div>
@@ -197,47 +118,7 @@
     <footer>
         <p class="copyright"><span>Powered by <a href="/">Dzung Nguyen</a></span></p>
     </footer>
-
-
-    <!-- Bootstrap -->
-    <!-- <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script> -->
-    <script src="js/jquery-1.11.0.min.js"></script>
-    <script src="bootstrap3.3.5/js/bootstrap.min.js"></script>
-
-    <!-- Bootflat's JS files.-->
-    <script src="bootflat/js/icheck.min.js"></script>
-    <script src="bootflat/js/jquery.fs.selecter.min.js"></script>
-    <script src="bootflat/js/jquery.fs.stepper.min.js"></script>
-    <script src="editor/trumbowyg-2.0.0/trumbowyg.min.js"></script>
-    <script src="js/prism.js"></script>
-    <script type="text/javascript">
-    (jQuery, window), !function (a) {
-        a(function () {
-            a(".tooltip-demo").tooltip({
-                selector : "[data-toggle=tooltip]",
-                container : "body"
-            }),
-            a("input[type='number']").stepper(),
-            a(".selecter_1").selecter(),
-            a(".selecter_2").selecter(),
-            a(".selecter_3").selecter(),
-            a(".selecter_4").selecter(),
-            a(".selecter_5").selecter(),
-            a(".selecter_6").selecter(),
-            a(".checkbox input").iCheck({
-                checkboxClass : "icheckbox_flat",
-                increaseArea : "20%"
-            }),
-            a(".radio input").iCheck({
-                radioClass : "iradio_flat",
-                increaseArea : "20%"
-            }),
-            a("#accordion1").collapse(),
-            a("#accordion2").collapse()
-        })
-    }
-    (window.jQuery);
-    </script>
+    {{render_script_include()}}
 
 </body>
 </html>

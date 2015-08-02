@@ -82,8 +82,10 @@ class Post(object):
             raise InvalidFieldError("Post id is invalid", ["post_id"])
         post = DBPost.get_by_id(post_id)
 
-        if post:
-            post.comments = post.comments.all()
+        # if post:
+        #     comments = post.comments.all()
+        #
+        #     post.comments = comments
         return post
 
     @classmethod
