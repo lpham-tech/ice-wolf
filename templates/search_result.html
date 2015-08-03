@@ -9,6 +9,10 @@
     <title>{{category}}</title>
     {%endif%}
 
+    {%if author%}
+    <title>Post by: {{author.full_name}}</title>
+    {%endif%}
+
     {%from "macros.html" import top_nav,main_menu, render_pagination, render_short_post, render_css_include, render_script_include%}
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     {{render_css_include()}}
@@ -51,6 +55,8 @@
                 {{render_pagination(pagination, endpoint="search", keyword=keyword)}}
                 {%elif category%}
                 {{render_pagination(pagination, endpoint="search", category=category)}}
+                {%elif author%}
+                {{render_pagination(pagination, endpoint="author", author_id=author.id)}}
                 {%endif%}
             </div>
         </div>

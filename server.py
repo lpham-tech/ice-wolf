@@ -83,6 +83,10 @@ def comment():
 def category(category, page=1):
     return post_controller.filter_post_by_category(category, page)
 
+@app.route("/author/<int:author_id>", methods=["GET"])
+@app.route("/author/<int:author_id>/<int:page>", methods=["GET"])
+def author(author_id, page=1):
+    return post_controller.filter_by_user(author_id, page)
 
 @app.route("/tag/<tag_slug>", methods=["GET"])
 def search_by_tag_handler(tag_slug):

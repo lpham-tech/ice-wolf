@@ -87,3 +87,10 @@ def filter_post_by_category(cat_name, page):
         return render_template("search_result.html", pagination=pagination, category=cat_name, menu_items=default.categories)
     except Exception as e:
         abort(400)
+
+def filter_by_user(user_id, page):
+    try:
+        pagination, author = Post.find_post_by_author_pagination(user_id,page)
+        return render_template("search_result.html", pagination=pagination, author=author, menu_items=default.categories)
+    except Exception as e:
+        abort(400)
