@@ -27,7 +27,7 @@
                         <span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>
                         <div class="categories">
                             {%for cat in post.categories.replace("`","").split(",")%}
-                            <a href="{{url_for('category',name=cat)}}">{{cat}}</a>,
+                            <a href="{{url_for('category',category=cat)}}">{{cat}}</a>,
                             {%endfor%}
                         </div>
                         {%endif%}

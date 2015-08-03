@@ -9,7 +9,7 @@ PER_PAGE = 10
 def get_latest_post(page):
     try:
         pagination = Post.get_posts_pagination(page=page, per_page=PER_PAGE)
-        return render_template("index.html", pagination=pagination)
+        return render_template("index.html", pagination=pagination, menu_items=default.categories)
     except Exception as e:
         #temporary return 404
         #TODO: render 404 page
@@ -77,6 +77,13 @@ def search_post_by_keyword():
 
     try:
         pagination = Post.find_post_by_keyword_pagination(keyword, page, per_page)
-        return render_template("search_result.html", pagination=pagination, keyword=keyword)
+        return render_template("search_result.html", pagination=pagination, keyword=keyword, menu_items=default.categories)
+    except Exception as e:
+        abort(400)
+
+def filter_post_by_category(cat_name, page):
+    try:
+        pagination = Post.find_post_by_category_pagination(cat_name, page)
+        return render_template("search_result.html", pagination=pagination, category=cat_name, menu_items=default.categories)
     except Exception as e:
         abort(400)

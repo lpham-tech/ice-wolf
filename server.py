@@ -78,10 +78,10 @@ def edit(post_id):
 def comment():
     return comment_controller.add_comment()
 
-
-@app.route("/category/<name>", methods=["GET"])
-def category(name):
-    return "OK"
+@app.route("/category/<category>", methods=["GET"])
+@app.route("/category/<category>/<int:page>", methods=["GET"])
+def category(category, page=1):
+    return post_controller.filter_post_by_category(category, page)
 
 
 @app.route("/tag/<tag_slug>", methods=["GET"])

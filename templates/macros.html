@@ -30,8 +30,8 @@
     <div class="logo">
         <a href="/">Ice Wolf</a>
     </div>
-    <div class="search-form">
-        <div class="col-lg-3" style="display: inline-block; float:none;">
+    <div class="search-form col-md-8 col-md-offset-2">
+        <div class="col-md-6 col-xs-12" style="display: inline-block; float:none;">
             <form method="get" action="{{url_for('search')}}">
                 <div class="form-search search-only">
                     <i class="search-icon glyphicon glyphicon-search"></i>
@@ -73,7 +73,7 @@
 {%endmacro%}
 
 <!--Render main menu-->
-{%macro main_menu()%}
+{%macro main_menu(menu_items)%}
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 col-sm-12">
@@ -93,12 +93,10 @@
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-                                <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
-                                <li><a href="#">Python</a></li>
-                                <li><a href="#">C/C++</a></li>
-                                <li><a href="#">Javascript</a></li>
-                                <li><a href="#">Projects</a></li>
-                                <li><a href="#">NON IT</a></li>
+                                <li class="active"><a href="">Home <span class="sr-only">(current)</span></a></li>
+                                {%for item in menu_items%}
+                                <li><a href="{{url_for('category', category=item.slug)}}">{{item.name}}</a></li>
+                                {%endfor%}
                             </ul>
                         </div>
                     </div>
@@ -134,6 +132,7 @@
 {%endmacro%}
 
 {%macro render_pagination(pagination, endpoint)%}
+{%if pagination.page > 1%}
 <ul class="pagination">
     {%for page in pagination.iter_pages()%}
     {%if page == pagination.page%}
@@ -143,4 +142,5 @@
     {%endif%}
     {%endfor%}
 </ul>
+{%endif%}
 {%endmacro%}

@@ -4,6 +4,11 @@
     {%if keyword%}
     <title>Search for: {{keyword}}</title>
     {%endif%}
+
+    {%if category%}
+    <title>{{category}}</title>
+    {%endif%}
+
     {%from "macros.html" import top_nav,main_menu, render_pagination, render_short_post, render_css_include, render_script_include%}
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     {{render_css_include()}}
@@ -18,7 +23,7 @@
         <a href="/">Ice Wolf</a>
     </div>
 
-    {{main_menu()}}
+    {{main_menu(menu_items)}}
 
     <!-- Main content -->
     <div class="container">
@@ -42,7 +47,11 @@
                     <!--<li ><a href="#">5</a></li>-->
                     <!--<li ><a href="#">NEXT</a></li>-->
                 <!--</ul>-->
+                {%if keyword%}
                 {{render_pagination(pagination, endpoint="search", keyword=keyword)}}
+                {%elif category%}
+                {{render_pagination(pagination, endpoint="search", category=category)}}
+                {%endif%}
             </div>
         </div>
     </div>
