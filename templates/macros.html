@@ -139,7 +139,7 @@
 {%endmacro%}
 
 {%macro render_pagination(pagination, endpoint)%}
-{%if pagination.page > 1%}
+{%if pagination.pages > 1%}
 <ul class="pagination">
     {%for page in pagination.iter_pages()%}
     {%if page == pagination.page%}
