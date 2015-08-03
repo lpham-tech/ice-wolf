@@ -45,8 +45,10 @@
                 <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
                 {%if post%}
                 <input name=post_id type=hidden value="{{ post.id }}">
-                {%endif%}
+                <button id="btn-publish" type="submit" class="btn btn-simple btn-active">Update</button>
+                {%else%}
                 <button id="btn-publish" type="submit" class="btn btn-simple btn-active">Publish</button>
+                {%endif%}
 
                 <div class="form-group">
                     <label>Categories</label>

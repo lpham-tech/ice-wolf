@@ -177,7 +177,7 @@ header>nav>.dropdown
     color: #48CFAD;
 }
 
-.post-info .glyphicon-bookmark
+.post-info .glyphicon-bookmark, .post-info .glyphicon-pencil
 {
     margin-left: 25px;
 }
