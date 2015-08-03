@@ -5,7 +5,7 @@ from persistent import db
 from controller import user_controller
 from controller import post_controller
 from controller import comment_controller
-#from lib import login_required
+from lib import utils
 from flask_login import login_required
 import default
 import uuid
@@ -114,6 +114,8 @@ def generate_csrf_token():
     return session['_csrf_token']
 
 app.jinja_env.globals['csrf_token'] = generate_csrf_token
+app.jinja_env.globals['has_readmore_tag'] = utils.has_readmore_tag
+app.jinja_env.globals['get_to_readmore'] = utils.get_to_readmore
 
 if __name__ == "__main__":
     db.init_app(app)

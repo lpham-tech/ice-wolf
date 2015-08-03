@@ -121,13 +121,20 @@
         {%- endif -%}
     </div>
     <div class="post-summary">
-       {{post.content|safe}}
+        {%- if has_readmore_tag(post.content) -%}
+        {{get_to_readmore(post.content)|safe}}
+        {%else%}
+        {{post.content|safe}}
+        {%endif%}
     </div>
+
+    {%- if has_readmore_tag(post.content) -%}
     <div style="width: 100%; text-align:center;">
         <a href="{{url_for(post_endpoint, post_id=post.id)}}">
             <button class="btn-simple">Read more</button>
         </a>
     </div>
+    {%- endif -%}
 </li>
 {%endmacro%}
 

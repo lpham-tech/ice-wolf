@@ -48,3 +48,16 @@ def get_slug_from_string(string):
     result = result.replace(" ", "-")
     return result
 
+READMORE_TAG = "<!--readmore-->"
+def has_readmore_tag(text):
+    if text.find(READMORE_TAG) > 0:
+        return True
+    else:
+        return False
+
+def get_to_readmore(text):
+    pos = text.find(READMORE_TAG)
+    if pos > 0:
+        return text[:pos]
+    else:
+        return text
