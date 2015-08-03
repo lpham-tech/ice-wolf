@@ -67,12 +67,11 @@ def add_post():
 
 
 @app.route("/edit/<int:post_id>", methods=["GET", "POST"])
-def edit_post_handler(post_id):
+def edit(post_id):
     if request.method == 'GET':
-        return render_template("add_post.html")
+        return post_controller.edit_post(post_id)
     elif request.method == 'POST':
-        # do add post
-        return "OK"
+        return post_controller.update_post()
 
 @app.route("/comment", methods=["POST"])
 @login_required

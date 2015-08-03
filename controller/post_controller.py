@@ -1,6 +1,8 @@
 __author__ = 'bluzky'
 from flask import abort, render_template, request, session, redirect, url_for
 from business.post import Post
+from lib.exceptions import AccessDeniedError
+import default
 
 PER_PAGE = 10
 
@@ -38,4 +40,32 @@ def add_post():
 
         return redirect(url_for('post', post_id=post.id))
     except:
+        abort(400)
+
+def edit_post(post_id):
+    try:
+        post = Post.get_post(post_id)
+        #only author can edit post
+        if post.author.id != session["user"]["id"] and session["user"]["role"] != "manager":
+            abort(403)
+        return render_template("add_post.html", post=post, categories=default.categories)
+    except Exception as e:
+        abort(404)
+
+def update_post():
+    args={
+            "user_id": session["user"]["id"],
+            "post_id": request.form["post_id"] or None,
+            "title":request.form["title"] or None,
+            "content": request.form["content"] or None,
+            "categories": request.form.getlist("categories") or None,
+            "tags": request.form["tags"] or None,
+            "feature_image":request.form["feature_image"] or None,
+        }
+    try:
+        post = Post.update_post(**args)
+        return render_template("add_post.html", post=post, categories=default.categories)
+    except AccessDeniedError:
+        abort(403)
+    except Exception as e:
         abort(400)

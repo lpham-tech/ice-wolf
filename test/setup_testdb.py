@@ -38,7 +38,7 @@ def set_up_db():
         <p>Et beatae ipsam repellat officiis similique cupiditate distinctio expedita rem at, aut aspernatur, voluptate quibusdam! Voluptatum aut quos porro eos nulla officiis adipisci magnam perferendis, dicta minima quis eligendi enim.</p>
         <p>Sed itaque dignissimos eligendi reprehenderit, nesciunt ducimus voluptates dolores suscipit fugit ipsam aperiam praesentium laborum odit qui libero ipsum tempora, eos quis hic, sapiente perspiciatis amet labore voluptatibus alias. Vitae.</p>""",
         "user_id": 1,
-        "categories":"`c++`,`python`"
+        "categories": ["c++","python"]
     }
 
     post = Post(**args)
@@ -64,7 +64,7 @@ def set_up_db():
 
     args["title"] = "Post Hello title"
     args["user_id"] = 1
-    args["categories"] = "`non-it`"
+    args["categories"] = ["non-it"]
 
     post = Post(**args)
     post.save()
@@ -77,7 +77,7 @@ def set_up_db():
 
     args["title"] = "First day at Moscow"
     args["user_id"] = 2
-    args["categories"] = "`journey`,`non-it`"
+    args["categories"] = ["journey","non-it"]
 
     post = Post(**args)
     post.save()
@@ -96,7 +96,7 @@ def set_up_db():
 
     args["title"] = "My new Phone"
     args["user_id"] = 3
-    args["categories"] = "`photo`,`non-it`"
+    args["categories"] = ["photo","non-it"]
 
     post = Post(**args)
     post.save()
@@ -109,7 +109,7 @@ def set_up_db():
 
     args["title"] = "List of useful app for Blackberry"
     args["user_id"] = 3
-    args["categories"] = "`uncategorized`"
+    args["categories"] = ["uncategorized"]
 
     post = Post(**args)
     post.save()
@@ -226,4 +226,6 @@ def set_up_db():
     cmt = Comment(**cmt_args)
     cmt.save()
 
-#set_up_db()
+from persistent import db
+db.create_all()
+set_up_db()

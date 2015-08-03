@@ -75,7 +75,7 @@ class Post(object):
             post.tags = tags
 
         if categories:
-            post.categories = categories
+            post.categories = ",".join("`%s`"%cat for cat in categories)
 
         post.update()
         return post

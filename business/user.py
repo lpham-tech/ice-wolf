@@ -65,7 +65,8 @@ class User(object):
                         "id":user.id,
                         "email":user.email,
                         "first_name": user.first_name,
-                        "last_name": user.last_name
+                        "last_name": user.last_name,
+                        "role": user.role,
                     }
                     return user_info
                 else:

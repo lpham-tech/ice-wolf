@@ -1,7 +1,12 @@
 <!doctype html>
 <html>
 <head>
+    {%if post%}
+    <title>Edit post</title>
+    {%else%}
     <title>New post</title>
+    {%endif%}
+
     {%from "macros.html" import render_css_include, render_script_include, top_nav%}
     {{render_css_include(["/static/editor/trumbowyg-2.0.0/ui/trumbowyg.min.css"])}}
 </head>
@@ -20,20 +25,27 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+            {%if post%}
+            <h3>Edit post</h3>
+            {%else%}
             <h3>Add new post</h3>
+            {%endif%}
         </div>
     </div>
     <form method="POST" id="add_post">
         <div class="row">
             <div class="col-md-9 col-sm-12">
                 <input type="text" class="form-control new-post-title" name="title" id="title"
-                       placeholder="Enter your title here">
-                <textarea id="editor" name="content"></textarea>
+                       placeholder="Enter your title here" {%- if post -%}value="{{post.title}}"{%- endif -%}>
+                <textarea id="editor" name="content">{%- if post -%}{{post.content}}{%- endif -%}</textarea>
             </div>
             <div class="col-md-3 col-sm-12 publish-meta">
                 <!-- Option side bar -->
 
                 <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+                {%if post%}
+                <input name=post_id type=hidden value="{{ post.id }}">
+                {%endif%}
                 <button id="btn-publish" type="submit" class="btn btn-simple btn-active">Publish</button>
 
                 <div class="form-group">
@@ -42,7 +54,11 @@
                     <div class="category-list">
                         {%for category in categories%}
                         <div class="checkbox">
+                            {%if post%}
+                            <input type="checkbox" name="categories" value="{{category.slug}}" id="{{category.slug}}" {%- if category.slug in post.categories -%}checked{%endif%}>
+                            {%else%}
                             <input type="checkbox" name="categories" value="{{category.slug}}" id="{{category.slug}}">
+                            {%endif%}
                             <label for="{{category.slug}}">{{category.name}}</label>
                         </div>
                         {%endfor%}
@@ -50,13 +66,13 @@
                 </div>
                 <div class="form-group">
                     <label for="tags">Tags</label>
-                    <input type="text" class="form-control" id="tags" name="tags" placeholder="tags">
+                    <input type="text" class="form-control" id="tags" name="tags" placeholder="tags" {%- if post -%}value="{{post.tag}}"{%- endif -%}>
                     <i>Tags are separated by commas</i>
                 </div>
                 <div class="form-group">
                     <label for="feature-image">Feature image</label>
                     <input type="text" class="form-control" id="feature-image" name="feature_image"
-                           placeholder="url to feature image">
+                           placeholder="url to feature image" {%- if post -%}value="{{post.tag}}"{%- endif -%}>
                 </div>
 
             </div>
