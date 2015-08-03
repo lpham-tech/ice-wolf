@@ -4,7 +4,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 TESTING = False
-DEBUG = True
+DEBUG = False
 SECRET_KEY = 'development key'
 SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
 LOGIN_ENDPOINT = "/login"
