@@ -33,6 +33,7 @@ header
     width: 100%;
     border-bottom: solid 1px #eee;
     text-align: center
+    position: relative;
 }
 
 header > .logo, .large-logo, .brand
@@ -93,6 +94,24 @@ header>nav>.dropdown
 }
 
 /*Menu bar CSS*/
+
+.form-search .search-query, .form-search .search-query:first-child, .form-search .search-query:last-child {
+    padding: 0 15px 0 40px;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-color: #ddd;
+}
+
+.search-form
+{
+    position: absolute;
+    top: 0;
+    padding: 8px;
+    text-align: center;
+    width: 100%;
+}
+
 .brand
 {
 

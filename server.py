@@ -88,6 +88,10 @@ def category(name):
 def search_by_tag_handler(tag_slug):
     return "OK"
 
+@app.route("/search", methods=["GET"])
+def search():
+    return post_controller.search_post_by_keyword()
+
 @app.before_first_request
 def initialize_database():
     db.create_all()

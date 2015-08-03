@@ -182,6 +182,8 @@ class Post(object):
         # validate pagination info
         if not is_id_valid(page):
             page = 1
+        else:
+            page = int(page)
 
         if int(per_page) <= 0 or int(per_page) >= 50:
             per_page = 10
@@ -190,7 +192,7 @@ class Post(object):
             start = (page - 1) * per_page   # id in sql start at 1
             post_list = DBPost.pagination_search(search_dict=args, page=page, per_page=per_page, order_by="time desc")
             return post_list
-        except:
+        except Exception as e:
             raise InvalidFieldError("Can not search with given string", ["search string"])
 
     @classmethod

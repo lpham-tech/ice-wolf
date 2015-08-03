@@ -25,34 +25,51 @@
 {%endmacro%}
 
 
-{%macro top_nav()%}
-<nav>
-    {%if not session.logged_in %}
-    <a href="{{url_for('login', next=request.url)}}">
-        <button class="btn-simple btn-active">Sign in</button>
-    </a>
-    <a href="{{url_for('register', next=request.url)}}">
-        <button class="btn-simple">Register</button>
-    </a>
-    {%else%}
-    <a href="{{url_for('add_post')}}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Post</a>
-
-    <div class="dropdown">
-        <button class="btn btn-link" type="button" id="application-menu" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="true">
-            {{session.user.first_name}}
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="application-menu">
-            <li class="disabled"><a href="#">Edit profile</a></li>
-            <li class="disabled"><a href="#">Change password</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="/logout">Sign out</a></li>
-
-        </ul>
+{%macro top_nav(keyword=None)%}
+<header class="hidden-xs">
+    <div class="logo">
+        <a href="/">Ice Wolf</a>
     </div>
-    {%endif%}
-</nav>
+    <div class="search-form">
+        <div class="col-lg-3" style="display: inline-block; float:none;">
+            <form method="get" action="{{url_for('search')}}">
+                <div class="form-search search-only">
+                    <i class="search-icon glyphicon glyphicon-search"></i>
+                    <input type="text" name="keyword" class="form-control search-query" {%- if keyword -%}value="{{keyword}}"{%- endif -%}>
+                </div>
+            </form>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <nav>
+        {%if not session.logged_in %}
+        <a href="{{url_for('login', next=request.url)}}">
+            <button class="btn-simple btn-active">Sign in</button>
+        </a>
+        <a href="{{url_for('register', next=request.url)}}">
+            <button class="btn-simple">Register</button>
+        </a>
+        {%else%}
+        <a href="{{url_for('add_post')}}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Post</a>
+
+        <div class="dropdown">
+            <button class="btn btn-link" type="button" id="application-menu" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="true">
+                {{session.user.first_name}}
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="application-menu">
+                <li class="disabled"><a href="#">Edit profile</a></li>
+                <li class="disabled"><a href="#">Change password</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="/logout">Sign out</a></li>
+
+            </ul>
+        </div>
+        {%endif%}
+    </nav>
+    <div style="clear:both;"></div>
+</header>
 {%endmacro%}
 
 <!--Render main menu-->
@@ -120,9 +137,9 @@
 <ul class="pagination">
     {%for page in pagination.iter_pages()%}
     {%if page == pagination.page%}
-    <li class="active"><a href="{{url_for(endpoint,page=page)}}">{{page}}</a></li>
+    <li class="active"><a href="{{url_for(endpoint,page=page, **kwargs)}}">{{page}}</a></li>
     {%else%}
-    <li><a href="{{url_for(endpoint,page=page)}}">{{page}}</a></li>
+    <li><a href="{{url_for(endpoint,page=page, **kwargs)}}">{{page}}</a></li>
     {%endif%}
     {%endfor%}
 </ul>

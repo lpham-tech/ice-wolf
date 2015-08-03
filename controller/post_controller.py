@@ -69,3 +69,14 @@ def update_post():
         abort(403)
     except Exception as e:
         abort(400)
+
+def search_post_by_keyword():
+    keyword = request.args["keyword"] or None
+    page = request.args.get("page", 1)
+    per_page = request.args.get("per_page", PER_PAGE)
+
+    try:
+        pagination = Post.find_post_by_keyword_pagination(keyword, page, per_page)
+        return render_template("search_result.html", pagination=pagination, keyword=keyword)
+    except Exception as e:
+        abort(400)

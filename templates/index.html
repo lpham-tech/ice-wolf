@@ -2,25 +2,16 @@
 <html>
 <head>
     <title>Home</title>
+    {%from "macros.html" import top_nav,main_menu, render_pagination, render_short_post, render_css_include, render_script_include%}
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="/static/bootstrap3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/bootflat/css/bootflat.min.css">
-    <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic&subset=latin,vietnamese' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/static/css/prism.css">
-    <link rel="stylesheet" href="/static/css/style.css">
+    {{render_css_include()}}
 </head>
 
 <body >
-    {%from "macros.html" import top_nav,main_menu, render_pagination, render_short_post%}
+
     <!-- Header -->
-    <header class =" hidden-xs">
-        <div class="logo">
-            <a href="/">Ice Wolf</a>
-        </div>
-        {{top_nav()}}
-        <div style="clear:both;"></div>
-    </header>
+    {{top_nav()}}
+
     <div class="large-logo hidden-xs">
         <a href="/">Ice Wolf</a>
     </div>
@@ -61,15 +52,7 @@
     </footer>
 
 
-    <!-- Bootstrap -->
-    <!-- <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script> -->
-    <script src="/static/js/jquery-1.11.0.min.js"></script>
-    <script src="/static/bootstrap3.3.5/js/bootstrap.min.js"></script>
-
-    <!-- Bootflat's JS files.-->
-    <script src="/static/bootflat/js/icheck.min.js"></script>
-    <script src="/static/js/prism.js"></script>
-    <script src="/static/js/application.js"></script>
+    {{render_script_include()}}
 
 
 </body>
