@@ -1,5 +1,5 @@
 __author__ = 'bluzky'
-from flask import session, request, render_template, redirect, abort, make_response
+from flask import request, render_template, redirect, abort, make_response
 from business.user import User
 from persistent import User as DBUser
 from lib.exceptions import InvalidFieldError, DuplicatedError, UserNotActivatedError
@@ -72,8 +72,6 @@ def login():
 
 def logout():
     logout_user()
-    session.pop("user", None)
-    session.pop("logged_in", None)
     return redirect("/")
 
 @login_manager.user_loader

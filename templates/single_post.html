@@ -73,7 +73,7 @@
         </div>
 
         <!-- Comment box -->
-        {%if session.logged_in%}
+        {%if current_user and current_user.is_authenticated()%}
         <div class="row">
             <div class="col-md-8 col-md-offset-2 col-sm-12 comment-form">
                 <h4>Leave your comment</h4>

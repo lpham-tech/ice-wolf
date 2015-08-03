@@ -1,11 +1,12 @@
 __author__ = 'bluzky'
 from flask import session, request, abort, redirect
 from business.comment import Comment
+from flask_login import current_user
 
 def add_comment():
     args = {
         "post_id":request.form["post_id"] or None,
-        "user_id": session["user"]["id"],
+        "user_id": current_user.id,
         "content": request.form["comment"] or None
     }
 

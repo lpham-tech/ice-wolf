@@ -48,7 +48,7 @@ def get_slug_from_string(string):
     result = result.replace(" ", "-")
     return result
 
-READMORE_TAG = "<!--readmore-->"
+READMORE_TAG = "<!--more-->"
 def has_readmore_tag(text):
     if text.find(READMORE_TAG) > 0:
         return True

@@ -1,7 +1,8 @@
 __author__ = 'bluzky'
-from flask import abort, render_template, request, session, redirect, url_for
+from flask import abort, render_template, request, redirect, url_for
 from business.post import Post
 from lib.exceptions import AccessDeniedError
+from flask_login import current_user
 import default
 
 PER_PAGE = 10
@@ -29,7 +30,7 @@ def show_single_post(post_id):
 def add_post():
     try:
         args={
-            "user_id": session["user"]["id"],
+            "user_id": current_user.id,
             "title":request.form["title"] or None,
             "content": request.form["content"] or None,
             "categories": request.form.getlist("categories") or None,
@@ -46,7 +47,7 @@ def edit_post(post_id):
     try:
         post = Post.get_post(post_id)
         #only author can edit post
-        if post.author.id != session["user"]["id"] and session["user"]["role"] != "manager":
+        if post.author.id != current_user.id and current_user.role != "manager":
             abort(403)
         return render_template("add_post.html", post=post, categories=default.categories)
     except Exception as e:
@@ -54,7 +55,7 @@ def edit_post(post_id):
 
 def update_post():
     args={
-            "user_id": session["user"]["id"],
+            "user_id": current_user.id,
             "post_id": request.form["post_id"] or None,
             "title":request.form["title"] or None,
             "content": request.form["content"] or None,

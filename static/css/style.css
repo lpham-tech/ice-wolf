@@ -10,6 +10,11 @@ body{
     margin-bottom: 120px;
 }
 
+h2
+{
+    font-size: 1.8em;
+}
+
 a, .dropdown-menu li a, .btn-link, .post-title a:hover
 {
     text-decoration: none;
@@ -410,7 +415,7 @@ pre
 
 }
 
-#btn-publish
+#publish-btn-group
 {
     margin-bottom: 20px;
 }

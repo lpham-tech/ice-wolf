@@ -38,12 +38,15 @@
                 <!-- Option side bar -->
 
                 <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
-                {%if post%}
-                <input name=post_id type=hidden value="{{ post.id }}">
-                <button id="btn-publish" type="submit" class="btn btn-simple btn-active">Update</button>
-                {%else%}
-                <button id="btn-publish" type="submit" class="btn btn-simple btn-active">Publish</button>
-                {%endif%}
+                <div class="publish-btn-group">
+                    {%if post%}
+                    <input name=post_id type=hidden value="{{ post.id }}">
+                    <button id="btn-publish" type="submit" class="btn btn-simple btn-active">Update</button>
+                    <a href="{{url_for('post', post_id=post.id)}}"><span class="btn btn-simple">View post</span></a>
+                    {%else%}
+                    <button id="btn-publish" type="submit" class="btn btn-simple btn-active">Publish</button>
+                    {%endif%}
+                </div>
 
                 <div class="form-group">
                     <label>Categories</label>
