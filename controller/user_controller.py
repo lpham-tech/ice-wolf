@@ -1,8 +1,12 @@
 __author__ = 'bluzky'
-from flask import session, request, render_template, redirect, abort
+from flask import session, request, render_template, redirect, abort, make_response
 from business.user import User
+from persistent import User as DBUser
 from lib.exceptions import InvalidFieldError, DuplicatedError, UserNotActivatedError
+from flask_login import LoginManager, login_user, logout_user
 
+login_manager = LoginManager()
+login_manager.login_view = "login"
 
 def register_user():
     error = None
@@ -44,20 +48,36 @@ def login():
     try:
         user = User.verify_user(**args)
         if user:
-            session["user"] = user
-            session["logged_in"] = True
-            if request.args["next"]:
-                return redirect(request.args["next"])
+            if "remember" in request.form:
+                login_user(user, True)
             else:
-                return redirect("/")
+                login_user(user)
+
+            # session["user"] = user.public_info()
+            # session["logged_in"] = True
+            if request.args["next"]:
+                response = make_response( redirect(request.args["next"]))
+            else:
+                response = make_response( redirect("/"))
+
+            return response
         else:
             error = "Email or password does not match"
     except UserNotActivatedError as e:
         error = e.message
-    except:
+    except Exception as e:
         abort(404)
     return render_template("login.html", error_msg=error)
 
+def logout():
+    logout_user()
+    session.pop("user", None)
+    session.pop("logged_in", None)
+    return redirect("/")
+
+@login_manager.user_loader
+def load_user(id):
+    return DBUser.get_by_id(int(id))
 
 def update_profile():
     pass

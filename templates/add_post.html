@@ -7,7 +7,7 @@
     <title>New post</title>
     {%endif%}
 
-    {%from "macros.html" import render_css_include, render_script_include, top_nav%}
+    {%from "macros.html" import render_css_include, render_script_include, top_nav with context%}
     {{render_css_include(["/static/editor/trumbowyg-2.0.0/ui/trumbowyg.min.css"])}}
 </head>
 

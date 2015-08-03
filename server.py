@@ -5,7 +5,8 @@ from persistent import db
 from controller import user_controller
 from controller import post_controller
 from controller import comment_controller
-from lib import login_required
+#from lib import login_required
+from flask_login import login_required
 import default
 import uuid
 
@@ -47,9 +48,7 @@ def login():
 
 @app.route("/logout", methods=["GET"])
 def logout():
-    session.pop("user", None)
-    session.pop("logged_in", None)
-    return redirect("/")
+    return user_controller.logout()
 
 
 @app.route("/post/<int:post_id>")
@@ -67,6 +66,7 @@ def add_post():
 
 
 @app.route("/edit/<int:post_id>", methods=["GET", "POST"])
+@login_required
 def edit(post_id):
     if request.method == 'GET':
         return post_controller.edit_post(post_id)
@@ -117,4 +117,5 @@ app.jinja_env.globals['csrf_token'] = generate_csrf_token
 
 if __name__ == "__main__":
     db.init_app(app)
+    user_controller.login_manager.init_app(app)
     app.run()

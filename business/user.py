@@ -61,14 +61,8 @@ class User(object):
             if user.activated:
                 if user.password == password_hashed:
                     # only return some basic info
-                    user_info = {
-                        "id":user.id,
-                        "email":user.email,
-                        "first_name": user.first_name,
-                        "last_name": user.last_name,
-                        "role": user.role,
-                    }
-                    return user_info
+
+                    return user
                 else:
                     return None
             else:

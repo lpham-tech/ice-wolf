@@ -1,6 +1,7 @@
 __author__ = 'bluzky'
 from base import db, ModelMethods
 
+
 class User(db.Model, ModelMethods):
     _table_name = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -12,7 +13,7 @@ class User(db.Model, ModelMethods):
     avatar = db.Column(db.String(512), default="")
     brief = db.Column(db.String(1024), default="")
     role = db.Column(db.String(20), default="editor")
-    activated =db.Column(db.Boolean, default=True)
+    activated = db.Column(db.Boolean, default=True)
 
     # activation_id is used for activating account and reset password
     activation_id = db.Column(db.String(64))
@@ -25,7 +26,7 @@ class User(db.Model, ModelMethods):
         return "%s %s" % (self.first_name, self.last_name)
 
     def __init__(self, email, password, first_name, last_name, avatar=None, brief=None, role=None):
-        #self.username = username
+        # self.username = username
         self.email = email
         self.password = password
         self.first_name = first_name
@@ -38,6 +39,27 @@ class User(db.Model, ModelMethods):
         if role:
             self.role = role
 
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return self.activated
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return unicode(self.id)  # python 2
+
+    def public_info(self):
+        user_info = {
+            "id": self.id,
+            "email": self.email,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "role": self.role,
+        }
+        return user_info
 
     def __repr__(self):
         return "User: %s %s" % (self.first_name, self.last_name)

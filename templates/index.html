@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Home</title>
-    {%from "macros.html" import top_nav,main_menu, render_pagination, render_short_post, render_css_include, render_script_include%}
+    {%from "macros.html" import top_nav,main_menu, render_pagination, render_short_post, render_css_include, render_script_include with context%}
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     {{render_css_include()}}
 </head>
