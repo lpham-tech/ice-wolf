@@ -4,8 +4,9 @@ from business.user import User
 from persistent import User as DBUser
 from lib.exceptions import InvalidFieldError, DuplicatedError, UserNotActivatedError
 from flask_login import LoginManager, login_user, logout_user
+from config import app
 
-login_manager = LoginManager()
+login_manager = LoginManager(app)
 login_manager.login_view = "login"
 
 def register_user():
