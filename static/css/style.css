@@ -478,6 +478,27 @@ pre
     padding-top: 10px;
 }
 
+/*404 page CSS*/
+.err-page
+{
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.err-page .input-group-btn:last-child>.btn
+{
+    font-size: 20px;
+    text-transform: uppercase;
+    border-radius: 0;
+}
+
+.err-page .search-query
+{
+    font-size: 20px;
+    height: 40px;
+}
+
+
 /*FOOTER HERE :v*/
 
 footer{

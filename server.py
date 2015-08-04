@@ -107,6 +107,10 @@ def search_by_tag_handler(tag_slug):
 def search():
     return post_controller.search_post_by_keyword()
 
+# ERROR HANDLER
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 @app.before_first_request
 def initialize_database():

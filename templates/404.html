@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+    <title>404 found</title>
+    {%from "macros.html" import render_css_include, render_script_include, top_nav with context%}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    {{render_css_include()}}
+</head>
+
+<body >
+
+    <!-- Main content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 col-xs-12 err-page" >
+                <h3><span style="color:#FFCE54; font-size: 2em;">404</span> found. <br/> Don't try to wake up the wolf. </h3>
+                <h3><a href="/">Go back</a></h3>
+
+                <div style="width: 100%; text-align:center;">
+                    <img src="/static/img/wolf.jpg" alt="404">
+                </div>
+
+                <form method="GET" action="{{url_for('search')}}">
+                    <div class="input-group form-search">
+                        <input type="text" class="form-control search-query" name="keyword" placeholder="Find another place">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-simple btn-active" data-type="last">Go</button>
+                        </span>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
