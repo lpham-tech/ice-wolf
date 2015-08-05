@@ -10,6 +10,11 @@ body{
     margin-bottom: 120px;
 }
 
+h2
+{
+    font-size: 1.8em;
+}
+
 a, .dropdown-menu li a, .btn-link, .post-title a:hover
 {
     text-decoration: none;
@@ -21,19 +26,30 @@ a:hover, .dropdown-menu li a:hover, .btn-link:hover
     color: #48CFAD;
 }
 
-.dropdown-menu, .btn
+.dropdown-menu, .btn, .form-control, .input-group-btn
 {
     font-size: 1em;
 }
 
+.form-control
+{
+    height: auto;
+    border-radius: 0;
+}
+
+.input-group-btn:last-child>.btn
+{
+    border-radius: 0;
+}
+
 header
 {
-    position: relative;
-    min-height: 40px;
+    height: 49px;
     background: #fefefe;
     width: 100%;
     border-bottom: solid 1px #eee;
     text-align: center
+    position: relative;
 }
 
 header > .logo, .large-logo, .brand
@@ -108,7 +124,6 @@ header>nav>.dropdown
     top: 0;
     padding: 8px;
     text-align: center;
-    width: 100%;
 }
 
 .brand
@@ -171,16 +186,11 @@ header>nav>.dropdown
 {
     color: #333;
 }
+
 .post-title
 {
     font-size: 2.5em;
 }
-
-.post-info
-{
-    text-align: center;
-}
-
 .post-info > div
 {
     text-transform: uppercase;
@@ -200,7 +210,7 @@ header>nav>.dropdown
     color: #48CFAD;
 }
 
-.post-info .glyphicon-bookmark
+.post-info .glyphicon-bookmark, .post-info .glyphicon-pencil
 {
     margin-left: 25px;
 }
@@ -229,6 +239,12 @@ pre
     text-align: center;
     margin-top: 50px;
 }
+
+.single-post .post-info
+{
+    text-align: center;
+}
+
 
 .single-post img, .post-item img
 {
@@ -308,7 +324,7 @@ pre
     color: #48CFAD;
     text-transform: uppercase;
 
-    padding: 5px 15px;
+    padding: 6px 15px;
 }
 
 .btn-simple:hover, .btn-active
@@ -395,11 +411,12 @@ pre
 .trumbowyg-box, .trumbowyg-editor
 {
     width: 100%;
+    min-height: 500px;
 }
 
 .new-post-title
 {
-    font-size: 2em;
+    font-size: 1.5em;
     height: 43px;
 }
 
@@ -408,7 +425,7 @@ pre
 
 }
 
-#btn-publish
+#publish-btn-group
 {
     margin-bottom: 20px;
 }
@@ -482,7 +499,6 @@ pre
 {
     font-size: 20px;
     text-transform: uppercase;
-    border-radius: 0;
 }
 
 .err-page .search-query
@@ -490,6 +506,7 @@ pre
     font-size: 20px;
     height: 40px;
 }
+
 
 /*FOOTER HERE :v*/
 

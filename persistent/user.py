@@ -13,7 +13,7 @@ class User(db.Model, ModelMethods):
     avatar = db.Column(db.String(512), default="")
     brief = db.Column(db.String(1024), default="")
     role = db.Column(db.String(20), default="editor")
-    activated = db.Column(db.Boolean, default=True)
+    activated = db.Column(db.Boolean, default=False)
 
     # activation_id is used for activating account and reset password
     activation_id = db.Column(db.String(64))
@@ -40,13 +40,19 @@ class User(db.Model, ModelMethods):
             self.role = role
 
     def is_authenticated(self):
-        return True
+        if self.id:
+            return True
+        else:
+            return False
 
     def is_active(self):
         return self.activated
 
     def is_anonymous(self):
-        return False
+        if self.id:
+            return False
+        else:
+            return True
 
     def get_id(self):
         return unicode(self.id)  # python 2

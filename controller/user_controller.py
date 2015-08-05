@@ -1,10 +1,10 @@
 __author__ = 'bluzky'
-from flask import request, render_template, redirect, abort, make_response
+from flask import request, render_template, redirect, abort, make_response, session
 from business.user import User
 from persistent import User as DBUser
 from lib.exceptions import InvalidFieldError, DuplicatedError, UserNotActivatedError
 import lib.utils
-from flask_login import LoginManager, login_user, logout_user
+from flask_login import LoginManager, login_user, logout_user, current_user
 from config import app
 from mail_controller import send_activation_mail
 
@@ -42,20 +42,52 @@ def register_user():
     return render_template("register.html", error_msg=error)
 
 def activate_account(token):
+    #log out current user first
+    logout()
+
     from datetime import  datetime
     try:
         info = lib.utils.extract_activation_info(token)
-        if datetime.fromtimestamp(info[2]) < datetime.now():
-            return "Invalid link"
+        user = DBUser.get_one({"email":info[0]})
+
+        # redirect to login page in case user has been activated
+        if user and user.activated:
+            return redirect('/')
+
+        # check if activation token is expired or not
+        expire = datetime.utcfromtimestamp(info[2])
+        now = datetime.now()
+        if datetime.utcfromtimestamp(info[2]) < datetime.now():
+            session["email"] = info[0]
+            return render_template("activation.html", title="Token expired", result="expired")
 
         user = User.activate_user(info[0], info[1])
-
+        # check if activation succeeded or not
         if user:
-            return "Activated"
+            return render_template("activation.html", title="Success", result="ok")
         else:
-            return "Invalid link"
+            return render_template("activation.html", title="Invalid link", result="invalid")
     except Exception as e:
-        abort(403)
+       return render_template("activation.html", title="Bad link", result="invalid")
+
+def generate_activation_code():
+    try:
+        email = session.pop("email", None)
+        if email:
+            user = DBUser.get_one({"email": email})
+            if user:
+                return render_template("activation.html", title="Mail sent", result="mail_sent", mail_address=email)
+        return render_template("activation.html", title="Account not exist", result="not_exist")
+    except Exception as e:
+        abort(400)
+
+
+def generate_activation_code_for_email(email):
+    user = DBUser.get_one({"email": email})
+    if user:
+        return render_template("activation.html", title="Mail sent", result="mail_sent", email=email)
+
+    return render_template("activation.html", title="Account not exist", result="not_exist")
 
 
 def login():

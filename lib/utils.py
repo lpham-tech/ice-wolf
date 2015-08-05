@@ -63,8 +63,15 @@ def get_to_readmore(text):
     else:
         return text
 
-def generate_activation_token(email, code, expired_in=86400):
-    expired_at = (datetime.now() - datetime(1970,1,1)).total_seconds() + expired_in
+def generate_activation_token(email, code, expired_in=84600):
+    """
+    Create token from given email, code and valid duration
+    :param email:
+    :param code:
+    :param expired_in: default is 24 hours
+    :return:
+    """
+    expired_at = (datetime.utcnow() - datetime(1970,1,1)).total_seconds() + expired_in
     args = (email, code, expired_at)
     s = URLSafeSerializer(current_app.config["SECRET_KEY"])
     return s.dumps(args)

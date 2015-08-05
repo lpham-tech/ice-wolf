@@ -11,7 +11,7 @@ def send_activation_mail(user):
         args["subject"] = "[%s] %s" %(default.APPLICATION_NAME, default.ACTIVATION_MAIL_SUBJECT)
         args["sender"] = ADMINS[0]
         args["recipients"] = [user.email]
-        activation_link = request.host_url + 'activate/verify/' + utils.generate_activation_token(user.email, user.activation_id)
+        activation_link = request.host_url + 'activation/verify/' + utils.generate_activation_token(user.email, user.activation_id)
         args["text_body"] = render_template("mail_templates/activation_email.txt", user=user, application=default.APPLICATION_NAME, activation_url=activation_link)
         args["html_body"] = render_template("mail_templates/activation_email.html", user=user, application=default.APPLICATION_NAME, activation_url=activation_link)
         send_mail(**args)

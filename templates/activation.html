@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+    <title>{{title}}</title>
+    {%from "macros.html" import top_nav,main_menu, render_pagination, render_short_post, render_css_include, render_script_include with context%}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    {{render_css_include()}}
+</head>
+
+<body >
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <a href="/">Ice Wolf</a>
+        </div>
+        <div style="clear:both;"></div>
+    </header>
+
+    <!-- Main content -->
+    <div class="container">
+        <div class="row"></div>
+        <div class="row">
+            {%if result == 'ok'%}
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <div class="alert" style="text-align:center; margin-top: 30px; color:#8CC152;">
+                    <p><h3>Activating account successfully!</h3></p>
+                    <p>Your account has been successfully activated.</p>
+                    <p> Start writing now!</p>
+                    <br/>
+                    <p><a class="btn btn-simple" href="{{url_for('login')}}">Sign in</a> </p>
+                </div>
+            </div>
+            {%endif%}
+
+            {%if result == 'expired'%}
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <div class="alert" style="text-align:center; margin-top: 30px; color:#F6BB42;">
+                    <p><h3>Expired!</h3></p>
+                    <p>Your activation link has been expired.</p>
+                    <p> Click button below to resend a new activation link to your email</p>
+                    <br/>
+                    <p><a class="btn btn-simple" href="{{url_for('generate_activation_token')}}">Send me new link</a> </p>
+                </div>
+            </div>
+            {%endif%}
+
+            {%if result == 'invalid'%}
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <div class="alert" style="text-align:center; margin-top: 30px; color:#E9573F;">
+                    <p><h3>Bad token!</h3></p>
+                    <p>Your activation link is not valid.</p>
+                    <p> Click button below to resend a new activation link to your email</p>
+                    <br/>
+                    <form method="POST" action="{{url_for('generate_activation_token')}}" data-toggle="activator">
+                        <input name=_csrf_token type=hidden value="{{ csrf_token()}}">
+                        <div class="input-group">
+                            <input type="email" name="email" class="form-control" placeholder="Your registered email address" required>
+                            <span class="input-group-btn">
+                                <button class="btn btn-simple btn-active" type="submit">Send me new link</button>
+                            </span>
+                        </div><!-- /input-group -->
+                    </form>
+                </div>
+            </div>
+            {%endif%}
+
+            {%if result == 'not_exist'%}
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <div class="alert" style="text-align:center; margin-top: 30px; color:#F6BB42;">
+                    <p><h3>Email not exist!</h3></p>
+                    <p>Your email does not associate with any account.</p>
+                    <p>Join our community</p>
+                    <br/>
+                    <p><a class="btn btn-simple" href="{{url_for('register')}}">Register now</a></p>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if result == 'mail_sent' %}
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <div class="alert" style="text-align:center; margin-top: 30px; color:#8CC152;">
+                    <p><h3>Activation mail sent!</h3></p>
+                    <p>An email with activation link has been sent to {{mail_address}}. Please check your inbox and follow instruction to activate your account.</p>
+                    <br/>
+                    <p><a class="btn btn-simple" href="{{url_for('login')}}">Sign in</a> </p>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p class="copyright"><span>Powered by <a href="/">Dzung Nguyen</a></span></p>
+    </footer>
+
+    {{render_script_include()}}
+</body>
+</html>

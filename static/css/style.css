@@ -26,9 +26,20 @@ a:hover, .dropdown-menu li a:hover, .btn-link:hover
     color: #48CFAD;
 }
 
-.dropdown-menu, .btn
+.dropdown-menu, .btn, .form-control, .input-group-btn
 {
     font-size: 1em;
+}
+
+.form-control
+{
+    height: auto;
+    border-radius: 0;
+}
+
+.input-group-btn:last-child>.btn
+{
+    border-radius: 0;
 }
 
 header
@@ -99,7 +110,6 @@ header>nav>.dropdown
 }
 
 /*Menu bar CSS*/
-
 .form-search .search-query, .form-search .search-query:first-child, .form-search .search-query:last-child {
     padding: 0 15px 0 40px;
     border-radius: 0;
@@ -172,7 +182,7 @@ header>nav>.dropdown
 
 /*POST CSS*/
 
-.post-title, .post-title>a
+.post-title, .post-title a
 {
     color: #333;
 }
@@ -314,7 +324,7 @@ pre
     color: #48CFAD;
     text-transform: uppercase;
 
-    padding: 5px 15px;
+    padding: 6px 15px;
 }
 
 .btn-simple:hover, .btn-active
@@ -489,7 +499,6 @@ pre
 {
     font-size: 20px;
     text-transform: uppercase;
-    border-radius: 0;
 }
 
 .err-page .search-query

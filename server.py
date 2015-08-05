@@ -33,9 +33,22 @@ def register():
     elif request.method == 'POST':
         return user_controller.register_user()
 
-@app.route("/activate/verify/<token>", methods=["GET"])
+@app.route("/activation/verify/<token>", methods=["GET"])
 def activate(token):
     return user_controller.activate_account(token)
+
+
+@app.route("/activation/generate", methods=["GET", "POST"])
+def generate_activation_token():
+    if request.method == 'GET':
+        # generate for existing user, in case expired link
+        return user_controller.generate_activation_code()
+    else:
+        # generate for user in case bad link
+        if request.form["email"]:
+            return user_controller.generate_activation_code_for_email(request.form["email"])
+        else:
+            abort(400)
 
 
 @app.route("/login", methods=["GET", "POST"])

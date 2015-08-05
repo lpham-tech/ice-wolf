@@ -12,8 +12,6 @@ def get_latest_post(page):
         pagination = Post.get_posts_pagination(page=page, per_page=PER_PAGE)
         return render_template("index.html", pagination=pagination, menu_items=default.categories)
     except Exception as e:
-        #temporary return 404
-        #TODO: render 404 page
         abort(404)
 
 def show_single_post(post_id):
@@ -24,7 +22,6 @@ def show_single_post(post_id):
         else:
             abort(404)
     except Exception as e:
-        #TODO: render 404 page
         abort(404)
 
 def add_post():

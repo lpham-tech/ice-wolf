@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+<head>
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="static/bootstrap3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/bootflat/css/bootflat.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<body >
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <a href="/">Ice Wolf</a>
+        </div>
+        <nav>
+            <a href="/register"><button class="btn-simple">Register</button></a>
+        </nav>
+        <div style="clear:both;"></div>
+    </header>
+
+    <!-- Main content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <div class="alert" style="text-align:center; margin-top: 30px; color:#8CC152;">
+                    <p><h3>Activating account successfully!</h3></p>
+                    <p>Your account has been successfully activated.</p>
+                    <p> Start writing now!</p>
+                    <br/>
+                    <p><a class="btn btn-simple" href="#">Sign in</a> </p>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <div class="alert" style="text-align:center; margin-top: 30px; color:#F6BB42;">
+                    <p><h3>Expired!</h3></p>
+                    <p>Your activation link has been expired.</p>
+                    <p> Click button below to resend a new activation link to your email</p>
+                    <br/>
+                    <p><a class="btn btn-simple" href="#">Send me new link</a> </p>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <div class="alert" style="text-align:center; margin-top: 30px; color:#E9573F;">
+                    <p><h3>Bad token!</h3></p>
+                    <p>Your activation link is not valid.</p>
+                    <p> Click button below to resend a new activation link to your email</p>
+                    <br/>
+                    <form method="GET" action="/search" data-toggle="activator">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Your registered email address" required>
+                            <span class="input-group-btn">
+                                <button class="btn btn-simple btn-active" type="button">Send me new link</button>
+                            </span>
+                        </div><!-- /input-group -->
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <div class="alert" style="text-align:center; margin-top: 30px; color:#F6BB42;">
+                    <p><h3>Email not exist!</h3></p>
+                    <p>Your email does not associate with any account.</p>
+                    <p>Join our community</p>
+                    <br/>
+                    <p><a class="btn btn-simple" href="#">Register now</a></p>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <div class="alert" style="text-align:center; margin-top: 30px; color:#8CC152;">
+                    <p><h3>Activation mail sent!</h3></p>
+                    <p>An email with activation link has been sent to {{email}}. Please check your inbox and follow instruction to activate your account.</p>
+                    <br/>
+                    <p><a class="btn btn-simple" href="#">Sign in</a> </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p class="copyright"><span>Powered by <a href="/">Dzung Nguyen</a></span></p>
+    </footer>
+
+    <!-- Bootstrap -->
+    <!-- <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script> -->
+    <script src="static/js/jquery-1.11.0.min.js"></script>
+    <script src="static/bootstrap3.3.5/js/bootstrap.min.js"></script>
+
+    <!-- Bootflat's JS files.-->
+    <script src="static/bootflat/js/icheck.min.js"></script>
+    <!-- <script src="static/bootflat/js/jquery.fs.selecter.min.js"></script>
+    <script src="static/bootflat/js/jquery.fs.stepper.min.js"></script>
+-->
+<script src="static/js/validator.min.js"></script>
+<script src="static/js/application.js"></script>
+</body>
+</html>
