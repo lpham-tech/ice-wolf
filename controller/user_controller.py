@@ -3,8 +3,10 @@ from flask import request, render_template, redirect, abort, make_response
 from business.user import User
 from persistent import User as DBUser
 from lib.exceptions import InvalidFieldError, DuplicatedError, UserNotActivatedError
+import lib.utils
 from flask_login import LoginManager, login_user, logout_user
 from config import app
+from mail_controller import send_activation_mail
 
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
@@ -20,7 +22,8 @@ def register_user():
     }
 
     try:
-        User.add(**args)
+        user = User.add(**args)
+        send_activation_mail(user)
         if request.args["next"]:
             return redirect(request.args["next"])
         else:
@@ -34,9 +37,25 @@ def register_user():
         else:
             v, o = "are", "them"
         error = "{0} {1} invalid. Please correct {2} and submit again".format(fields, v, o)
-        # except Exception as e:
+    except Exception as e:
         error = "Fail to create new account. Please try again later."
     return render_template("register.html", error_msg=error)
+
+def activate_account(token):
+    from datetime import  datetime
+    try:
+        info = lib.utils.extract_activation_info(token)
+        if datetime.fromtimestamp(info[2]) < datetime.now():
+            return "Invalid link"
+
+        user = User.activate_user(info[0], info[1])
+
+        if user:
+            return "Activated"
+        else:
+            return "Invalid link"
+    except Exception as e:
+        abort(403)
 
 
 def login():

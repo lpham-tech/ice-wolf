@@ -2,8 +2,9 @@ __author__ = 'bluzky'
 import re
 import random
 import string
-from exceptions import InvalidFieldError
-
+from datetime import datetime
+from flask import current_app
+from itsdangerous import URLSafeSerializer
 
 _EMAIL_REGEX = re.compile(
         r"(^[-!#$%&'*+/=?^_`{}|~0-9A-Z]+(\.[-!#$%&'*+/=?^_`{}|~0-9A-Z]+)*"  # dot-atom
@@ -61,3 +62,30 @@ def get_to_readmore(text):
         return text[:pos]
     else:
         return text
+
+def generate_activation_token(email, code, expired_in=86400):
+    expired_at = (datetime.now() - datetime(1970,1,1)).total_seconds() + expired_in
+    args = (email, code, expired_at)
+    s = URLSafeSerializer(current_app.config["SECRET_KEY"])
+    return s.dumps(args)
+
+def is_activation_token_valid(token):
+    s = URLSafeSerializer(current_app.config["SECRET_KEY"])
+    try:
+        info = s.loads(token)
+        expired_at = info[2]
+        if expired_at < (datetime.now() - datetime(1970,1,1)).total_seconds():
+            return False
+        else:
+            return True
+    except:
+        return False
+
+def extract_activation_info(token):
+    s = URLSafeSerializer(current_app.config["SECRET_KEY"])
+    try:
+        return s.loads(token)
+    except:
+        return None
+
+

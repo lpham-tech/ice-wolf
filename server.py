@@ -33,6 +33,10 @@ def register():
     elif request.method == 'POST':
         return user_controller.register_user()
 
+@app.route("/activate/verify/<token>", methods=["GET"])
+def activate(token):
+    return user_controller.activate_account(token)
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -47,7 +51,6 @@ def login():
                 return render_template("login.html")
         except Exception as e:
             return render_template("login.html")
-            print e.mesage
     elif request.method == 'POST':
         return user_controller.login()
 

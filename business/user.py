@@ -71,6 +71,30 @@ class User(object):
             return None
 
     @classmethod
+    def activate_user(cls, email, activation_id):
+        # validate input
+        if not is_email_address_valid(email):
+            return None
+
+        arg = {
+            "email": email.lower(),
+        }
+
+        user = DBUser.get_one(arg)
+
+        if user :
+                if user.activation_id == activation_id:
+                    # only return some basic info
+                    user.activation_id = ""
+                    user.activated = True
+                    user.update()
+                    return user
+                else:
+                    return None
+        else:
+            return None
+
+    @classmethod
     def delete_user(cls, request_user_id, user_delete):
         user = DBUser.get_by_id(request_user_id)
         dl_user = DBUser.get_by_id(user_delete)

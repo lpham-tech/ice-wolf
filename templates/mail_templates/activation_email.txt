@@ -1,0 +1,8 @@
+Dear {{user.first_name}},
+
+You have just registered an account at {{application}}.
+To complete registration process, please click link below to activate your account.
+{{activation_url}}
+
+Thank you,
+Ice wolf team

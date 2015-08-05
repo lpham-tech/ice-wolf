@@ -10,3 +10,6 @@ categories=[
 ]
 
 DEFAULT_CATEGORY = "Uncategorized"
+
+ACTIVATION_MAIL_SUBJECT = "Please activate your account"
+APPLICATION_NAME = "Ice Blog"
