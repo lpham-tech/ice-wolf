@@ -87,6 +87,19 @@
             </div>
             {% endif %}
 
+            {% if result == 'not_activated' %}
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <div class="alert" style="text-align:center; margin-top: 30px; color:#8CC152;">
+                    <p><h3>Not activated</h3></p>
+                    <p>Your account has not been activated.</p>
+                    <p>Please check your email and follow instruction to activate your account and login again.</p>
+                    <p>Or click button below to resend activation mail.</p>
+                    <br/>
+                    <p><a class="btn btn-simple" href="{{url_for('generate_activation_token')}}">Send me new link</a> </p>
+                </div>
+            </div>
+            {%endif%}
+
         </div>
     </div>
 

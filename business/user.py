@@ -66,7 +66,7 @@ class User(object):
                 else:
                     return None
             else:
-                raise UserNotActivatedError()
+                raise UserNotActivatedError(email=user.email)
         else:
             return None
 

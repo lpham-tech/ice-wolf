@@ -27,7 +27,8 @@ class UserNotFoundError(Exception):
         super(UserNotFoundError, self).__init__(msg)
 
 class UserNotActivatedError(Exception):
-    def __init__(self):
+    def __init__(self, email):
+        self.user_email = email
         super(UserNotActivatedError, self).__init__("User has not been activated")
 
 class PostNotFoundError(Exception):

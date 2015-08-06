@@ -12,7 +12,12 @@ login_manager = LoginManager(app)
 login_manager.login_view = "login"
 
 def register_user():
+    """
+    Register new user account with given info in post param
+    :return: rendered page
+    """
     error = None
+    #1. collect account detail
     args = {
         "email": request.form["email"],
         "password": request.form["password"],
@@ -22,15 +27,23 @@ def register_user():
     }
 
     try:
+        #2. Try to create new account
         user = User.add(**args)
+
+        #3. Send mail with activation link to user
         send_activation_mail(user)
+
+        #4. Redirect to login page
         if request.args["next"]:
             return redirect(request.args["next"])
         else:
             return redirect("/")
+
     except DuplicatedError as e:
+        # error if email has been used
         error = e.message
     except InvalidFieldError as e:
+        # error if user detail is not valid
         fields = ", ".join(e.error_fields)
         if len(e.error_fields) == 1:
             v, o = "is", "it"
@@ -39,6 +52,7 @@ def register_user():
         error = "{0} {1} invalid. Please correct {2} and submit again".format(fields, v, o)
     except Exception as e:
         error = "Fail to create new account. Please try again later."
+
     return render_template("register.html", error_msg=error)
 
 def activate_account(token):
@@ -91,6 +105,10 @@ def generate_activation_code_for_email(email):
 
 
 def login():
+    """
+    Login user with given credential in form params
+    :return:
+    """
     error = None
     args = {
         "email": request.form["email"],
@@ -100,23 +118,25 @@ def login():
     try:
         user = User.verify_user(**args)
         if user:
+            # save user info in Flask-login object
             if "remember" in request.form:
-                login_user(user, True)
+                login_user(user, True) #auto login for next visit
             else:
                 login_user(user)
 
-            # session["user"] = user.public_info()
-            # session["logged_in"] = True
+            # if login is redirect from another page, return back to that page
             if request.args["next"]:
                 response = make_response( redirect(request.args["next"]))
             else:
-                response = make_response( redirect("/"))
-
+                response = make_response( redirect("/")) # default redirect to home page
             return response
         else:
             error = "Email or password does not match"
     except UserNotActivatedError as e:
-        error = e.message
+        session["email"] = e.user_email
+        # render activation page
+        return render_template("activation.html", result = 'not_activated')
+
     except Exception as e:
         abort(404)
     return render_template("login.html", error_msg=error)
