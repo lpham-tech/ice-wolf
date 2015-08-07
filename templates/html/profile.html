@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+<head>
+    <title>Edit profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="static/bootstrap3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/bootflat/css/bootflat.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic&subset=latin,vietnamese' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="static/css/prism.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<body >
+    <!-- Header -->
+    <header class =" hidden-xs">
+        <div class="logo">
+            <a href="/">Ice Wolf</a>
+        </div>
+        <div class="search-form">
+            <div class="col-lg-3" style="display: inline-block; float:none;">
+                <form method="get">
+                    <div class="form-search search-only">
+                        <i class="search-icon glyphicon glyphicon-search"></i>
+                        <input type="text" name="keyword" class="form-control search-query">
+                    </div>
+                </form>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <nav>
+            <a href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Post</a>
+            <div class="dropdown">
+                <button class="btn btn-link" type="button" id="application-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Dzung
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="application-menu">
+                    <li><a href="#">Edit profile</a></li>
+                    <li><a href="#">Change password</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/logout">Sign out</a></li>
+
+                </ul>
+            </div>
+        </nav>
+        <div style="clear:both;"></div>
+    </header>
+
+    <!-- Main content -->
+    <div class="container main-content">
+        <div class="row"></div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="page-title">Edit Profile</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <form method="POST" class="form-horizontal" data-togle="validator">
+                    <div class="form-group">
+                        <label for="select-file" class="col-sm-3 control-label"><img src="static/img/ava.jpg" width="192" height="192" alt="Dzung Nguyen"></label>
+                        <div class="btn-simple select-file" style="margin-top: 160px;">
+                            <span class="glyphicon glyphicon-picture"></span> Upload new avatar
+                            <input type="file" id="select-file">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="first-name" class="col-sm-3 control-label">First name</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="first-name" name="first_name" placeholder="First name" value="Dzung" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name" class="col-sm-3 control-label">Last name name</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="last-name" name="last_name" placeholder="Last name" value="Nguyen" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-sm-3 control-label">Email</label>
+                        <div class="col-sm-6">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="email@example.com" data-error="Oops, that email address is invalid" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-offset-3">
+                        <button type="submit" class="btn btn-simple btn-active" name="update" value="1">Update</button>
+                        <button type="submit" class="btn btn-simple" name="update" value="0">Cancel</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer>
+        <p class="copyright"><span>Powered by <a href="/">Dzung Nguyen</a></span></p>
+    </footer>
+
+
+    <!-- Bootstrap -->
+    <!-- <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script> -->
+    <script src="static/js/jquery-1.11.0.min.js"></script>
+    <script src="static/bootstrap3.3.5/js/bootstrap.min.js"></script>
+
+    <!-- Bootflat's JS files.-->
+    <script src="static/bootflat/js/icheck.min.js"></script>
+    <script src="static/js/prism.js"></script>
+    <script src="static/js/application.js"></script>
+
+
+</body>
+</html>
