@@ -1,5 +1,6 @@
 __author__ = 'bluzky'
 from base import db, ModelMethods
+from settings import settings
 
 
 class User(db.Model, ModelMethods):
@@ -13,7 +14,7 @@ class User(db.Model, ModelMethods):
     avatar = db.Column(db.String(512), default="")
     brief = db.Column(db.String(1024), default="")
     role = db.Column(db.String(20), default="editor")
-    activated = db.Column(db.Boolean, default=False)
+    activated = db.Column(db.Boolean, default= not settings.require_activation)
 
     # activation_id is used for activating account and reset password
     activation_id = db.Column(db.String(64))

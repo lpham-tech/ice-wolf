@@ -11,6 +11,7 @@ from lib import utils
 from flask_login import login_required, current_user
 import default
 import os
+from settings import settings
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -35,20 +36,26 @@ def register():
 
 @app.route("/activation/verify/<token>", methods=["GET"])
 def activate(token):
-    return user_controller.activate_account(token)
+    if settings.require_activation:
+        return user_controller.activate_account(token)
+    else:
+        abort(404)
 
 
 @app.route("/activation/generate", methods=["GET", "POST"])
 def generate_activation_token():
-    if request.method == 'GET':
-        # generate for existing user, in case expired link
-        return user_controller.generate_activation_code()
-    else:
-        # generate for user in case bad link
-        if request.form["email"]:
-            return user_controller.generate_activation_code_for_email(request.form["email"])
+    if settings.require_activation:
+        if request.method == 'GET':
+            # generate for existing user, in case expired link
+            return user_controller.generate_activation_code()
         else:
-            abort(400)
+            # generate for user in case bad link
+            if request.form["email"]:
+                return user_controller.generate_activation_code_for_email(request.form["email"])
+            else:
+                abort(400)
+    else:
+        abort(404)
 
 
 @app.route("/login", methods=["GET", "POST"])

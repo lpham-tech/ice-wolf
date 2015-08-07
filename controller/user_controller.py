@@ -4,12 +4,14 @@ from business.user import User
 from persistent import User as DBUser
 from lib.exceptions import InvalidFieldError, DuplicatedError, UserNotActivatedError
 import lib.utils
-from flask_login import LoginManager, login_user, logout_user, current_user
+from flask_login import LoginManager, login_user, logout_user
 from config import app
 from mail_controller import send_activation_mail
+from settings import settings
 
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
+
 
 def register_user():
     """
@@ -17,7 +19,7 @@ def register_user():
     :return: rendered page
     """
     error = None
-    #1. collect account detail
+    # 1. collect account detail
     args = {
         "email": request.form["email"],
         "password": request.form["password"],
@@ -27,17 +29,19 @@ def register_user():
     }
 
     try:
-        #2. Try to create new account
+        # 2. Try to create new account
         user = User.add(**args)
 
-        #3. Send mail with activation link to user
-        send_activation_mail(user)
+        # 3. Send mail with activation link to user
+        if settings.require_activation:
+            send_activation_mail(user)
+            return render_template("activation.html", title="Mail sent", result="mail_sent", mail_address=args["email"])
 
-        #4. Redirect to login page
+        # 4. Redirect to login page
         if request.args["next"]:
             return redirect(request.args["next"])
         else:
-            return redirect("/")
+            return redirect("/login")
 
     except DuplicatedError as e:
         # error if email has been used
@@ -56,13 +60,14 @@ def register_user():
     return render_template("register.html", error_msg=error)
 
 def activate_account(token):
-    #log out current user first
+    # log out current user first
     logout()
 
-    from datetime import  datetime
+    from datetime import datetime
+
     try:
         info = lib.utils.extract_activation_info(token)
-        user = DBUser.get_one({"email":info[0]})
+        user = DBUser.get_one({"email": info[0]})
 
         # redirect to login page in case user has been activated
         if user and user.activated:
@@ -82,7 +87,8 @@ def activate_account(token):
         else:
             return render_template("activation.html", title="Invalid link", result="invalid")
     except Exception as e:
-       return render_template("activation.html", title="Bad link", result="invalid")
+        return render_template("activation.html", title="Bad link", result="invalid")
+
 
 def generate_activation_code():
     try:
@@ -120,34 +126,37 @@ def login():
         if user:
             # save user info in Flask-login object
             if "remember" in request.form:
-                login_user(user, True) #auto login for next visit
+                login_user(user, True)  # auto login for next visit
             else:
                 login_user(user)
 
             # if login is redirect from another page, return back to that page
             if request.args["next"]:
-                response = make_response( redirect(request.args["next"]))
+                response = make_response(redirect(request.args["next"]))
             else:
-                response = make_response( redirect("/")) # default redirect to home page
+                response = make_response(redirect("/"))  # default redirect to home page
             return response
         else:
             error = "Email or password does not match"
     except UserNotActivatedError as e:
         session["email"] = e.user_email
         # render activation page
-        return render_template("activation.html", result = 'not_activated')
+        return render_template("activation.html", result='not_activated')
 
     except Exception as e:
         abort(404)
     return render_template("login.html", error_msg=error)
 
+
 def logout():
     logout_user()
     return redirect("/")
 
+
 @login_manager.user_loader
 def load_user(id):
     return DBUser.get_by_id(int(id))
+
 
 def update_profile():
     pass
