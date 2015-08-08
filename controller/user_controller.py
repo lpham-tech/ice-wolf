@@ -6,8 +6,9 @@ from lib.exceptions import InvalidFieldError, DuplicatedError, UserNotActivatedE
 import lib.utils
 from flask_login import LoginManager, login_user, logout_user
 from config import app
-from mail_controller import send_activation_mail
+import mail_controller
 from settings import settings
+import uuid
 
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
@@ -34,7 +35,7 @@ def register_user():
 
         # 3. Send mail with activation link to user
         if settings.require_activation:
-            send_activation_mail(user)
+            mail_controller.send_activation_mail(user)
             return render_template("activation.html", title="Mail sent", result="mail_sent", mail_address=args["email"])
 
         # 4. Redirect to login page
@@ -109,6 +110,20 @@ def generate_activation_code_for_email(email):
 
     return render_template("activation.html", title="Account not exist", result="not_exist")
 
+def send_reset_password_email():
+    try:
+        email = request.form["email"]
+        user = DBUser.get_one({"email": email})
+
+        if user:
+            user.activation_id = str(uuid.uuid4())
+            user.update()
+            mail_controller.send_reset_password_email(user)
+            return render_template("reset_password.html", show_result=True, email=email)
+        else:
+            return render_template("reset_password.html", error_msg="there is no account which associate with %s"%email)
+    except Exception as e:
+        return render_template("reset_password.html")
 
 def login():
     """

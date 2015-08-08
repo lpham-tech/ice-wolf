@@ -75,6 +75,19 @@ def login():
         return user_controller.login()
 
 
+@app.route("/forgot_password", methods=["GET", "POST"])
+def forgot_password():
+    if request.method == 'GET':
+        try:
+            if current_user.is_authenticated():
+                return redirect("/")
+            else:
+                return render_template("reset_password.html")
+        except Exception as e:
+            return render_template("reset_password.html")
+    elif request.method == 'POST':
+        return user_controller.send_reset_password_email()
+
 @app.route("/logout", methods=["GET"])
 def logout():
     return user_controller.logout()
