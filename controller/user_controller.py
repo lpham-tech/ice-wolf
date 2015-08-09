@@ -189,9 +189,11 @@ def login_by_token(token):
         # check if activation token is expired or not
         if datetime.utcfromtimestamp(info[2]) < datetime.now():
             return render_template("action_result.html", action="reset_password", result="expired")
-        else:
+        elif user.activation_id == info[1]:
             login_user(user)
             return redirect("/change_password")
+        else:
+            return render_template("action_result.html", action="reset_password", result="invalid")
     except Exception as e:
         return render_template("action_result.html", action="reset_password", result="invalid")
 
