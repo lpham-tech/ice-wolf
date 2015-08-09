@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+    <title>{{title}}</title>
+    {%from "macros.html" import top_nav,main_menu, render_pagination, render_short_post, render_css_include, render_script_include with context%}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    {{render_css_include()}}
+</head>
+
+<body >
+    <!-- Header -->
+    {{top_nav()}}
+
+    <!-- Main content -->
+    <div class="container">
+        <div class="row"></div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+            {%if action == 'reset_password'%}
+            {% if result == 'expired' %}
+
+                <div class="alert" style="text-align:center; margin-top: 30px; color:#8CC152;">
+                    <p><h3>Token expired</h3></p>
+                    <p>This token has been expired. Please request another token.</p>
+                </div>
+            {% elif result == 'invalid'%}
+                <div class="alert" style="text-align:center; margin-top: 30px; color:#8CC152;">
+                    <p><h3>Invalid token</h3></p>
+                    <p>Your token is invalid. Maybe it is not from us.</p>
+                </div>
+            {%endif%}
+            {%endif%}
+             </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p class="copyright"><span>Powered by <a href="/">Dzung Nguyen</a></span></p>
+    </footer>
+
+    {{render_script_include()}}
+</body>
+</html>

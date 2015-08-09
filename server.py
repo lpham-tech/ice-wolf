@@ -1,7 +1,7 @@
 __author__ = 'bluzky'
 import uuid
 
-from flask import request, redirect, render_template, session, abort
+from flask import request, redirect, render_template, session, abort, url_for
 from config import app
 from persistent import db
 from controller import user_controller, login_manager
@@ -87,6 +87,18 @@ def forgot_password():
             return render_template("reset_password.html")
     elif request.method == 'POST':
         return user_controller.send_reset_password_email()
+
+@app.route("/reset_password/<token>", methods=["GET"])
+def reset_password(token):
+    return user_controller.login_by_token(token)
+
+@app.route("/change_password", methods=["GET", "POST"])
+def change_password(token = None):
+    if request.method == 'GET':
+        return render_template("change_password.html")
+    else:
+        return user_controller.update_password()
+
 
 @app.route("/logout", methods=["GET"])
 def logout():

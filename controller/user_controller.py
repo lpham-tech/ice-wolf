@@ -175,3 +175,25 @@ def load_user(id):
 
 def update_profile():
     pass
+
+def login_by_token(token):
+    # log out current user first
+    logout()
+
+    from datetime import datetime
+
+    try:
+        info = lib.utils.extract_activation_info(token)
+        user = DBUser.get_one({"email": info[0]})
+
+        # check if activation token is expired or not
+        if datetime.utcfromtimestamp(info[2]) < datetime.now():
+            return render_template("action_result.html", action="reset_password", result="expired")
+        else:
+            login_user(user)
+            return redirect("/change_password")
+    except Exception as e:
+        return render_template("action_result.html", action="reset_password", result="invalid")
+
+def update_password():
+    pass
