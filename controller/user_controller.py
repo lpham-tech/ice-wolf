@@ -4,7 +4,7 @@ from business.user import User
 from persistent import User as DBUser
 from lib.exceptions import InvalidFieldError, DuplicatedError, UserNotActivatedError
 import lib.utils
-from flask_login import LoginManager, login_user, logout_user
+from flask_login import LoginManager, login_user, logout_user, current_user
 from config import app
 import mail_controller
 from settings import settings
@@ -198,4 +198,13 @@ def login_by_token(token):
         return render_template("action_result.html", action="reset_password", result="invalid")
 
 def update_password():
-    pass
+    try:
+        args ={
+            "password": request.form["password"],
+            "confirm_password": request.form["re_password"]
+        }
+
+        User.update_user(user_id=current_user.id, **args)
+        return render_template("change_password.html", error_msg="")
+    except:
+        return render_template("change_password.html", error_msg="Password does not match. Please try again.")

@@ -93,6 +93,7 @@ def reset_password(token):
     return user_controller.login_by_token(token)
 
 @app.route("/change_password", methods=["GET", "POST"])
+@login_required
 def change_password(token = None):
     if request.method == 'GET':
         return render_template("change_password.html")
