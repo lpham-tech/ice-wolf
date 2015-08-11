@@ -1,14 +1,16 @@
 __author__ = 'bluzky'
+import uuid
+
 from flask import request, render_template, redirect, abort, make_response, session
+from flask_login import LoginManager, login_user, logout_user, current_user
+from flaskext.uploads import UploadNotAllowed
 from business.user import User
 from persistent import User as DBUser
 from lib.exceptions import InvalidFieldError, DuplicatedError, UserNotActivatedError
 import lib.utils
-from flask_login import LoginManager, login_user, logout_user, current_user
-from config import app
+from config import app, avatars
 import mail_controller
 from settings import settings
-import uuid
 
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
@@ -60,6 +62,7 @@ def register_user():
 
     return render_template("register.html", error_msg=error)
 
+
 def activate_account(token):
     # log out current user first
     logout()
@@ -110,6 +113,7 @@ def generate_activation_code_for_email(email):
 
     return render_template("activation.html", title="Account not exist", result="not_exist")
 
+
 def send_reset_password_email():
     try:
         email = request.form["email"]
@@ -121,9 +125,11 @@ def send_reset_password_email():
             mail_controller.send_reset_password_email(user)
             return render_template("reset_password.html", show_result=True, email=email)
         else:
-            return render_template("reset_password.html", error_msg="there is no account which associate with %s"%email)
+            return render_template("reset_password.html",
+                                   error_msg="there is no account which associate with %s" % email)
     except Exception as e:
         return render_template("reset_password.html")
+
 
 def login():
     """
@@ -174,7 +180,37 @@ def load_user(id):
 
 
 def update_profile():
-    pass
+    error_msg = ""
+    try:
+        args = {
+            "user_id": current_user.id,
+            "first_name": request.form["first_name"] or None,
+            "last_name": request.form["last_name"] or None,
+            "email": request.form["email"] or None,
+            "brief": request.form["brief"] or None
+        }
+        avatar_photo = request.files.get("avatar")
+        try:
+            filename = avatars.save(avatar_photo)
+            args["avatar"] = avatars.url(filename)
+        except UploadNotAllowed:
+            error_msg = "The upload was not allowed"
+        else:
+            user = User.update_user(**args)
+            current_user.avatar = user.avatar
+            current_user.first_name = user.first_name
+            current_user.last_name = user.last_name
+            current_user.email = user.email
+            current_user.brief = user.brief
+            return render_template("profile.html", edit=False)
+
+    except InvalidFieldError as e:
+        error_msg = e.message
+    except:
+        error_msg = "Cannot update your profile, please try again later."
+
+    return render_template("profile.html", error_msg=error_msg)
+
 
 def login_by_token(token):
     # log out current user first
@@ -197,9 +233,10 @@ def login_by_token(token):
     except Exception as e:
         return render_template("action_result.html", action="reset_password", result="invalid")
 
+
 def update_password():
     try:
-        args ={
+        args = {
             "password": request.form["password"],
             "confirm_password": request.form["re_password"]
         }

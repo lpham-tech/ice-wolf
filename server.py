@@ -101,6 +101,22 @@ def change_password(token = None):
         return user_controller.update_password()
 
 
+@app.route("/profile", methods=["GET", "POST"])
+@login_required
+def profile_handler():
+    if request.method == "GET":
+        if request.args and request.args["action"] == "edit":
+            return render_template("profile.html", edit=True)
+        else:
+            return render_template("profile.html")
+    else:
+        if "update" in request.form:
+            return user_controller.update_profile()
+        else:
+            return render_template("profile.html")
+
+
+
 @app.route("/logout", methods=["GET"])
 def logout():
     return user_controller.logout()

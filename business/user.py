@@ -112,7 +112,7 @@ class User(object):
 
     @classmethod
     def update_user(cls, user_id, email=None, password=None, confirm_password=None, first_name=None, last_name=None,
-                    brief=None):
+                    brief=None, avatar=None):
         try:
             user = DBUser.get_by_id(user_id)
 
@@ -147,6 +147,9 @@ class User(object):
 
             if brief:
                 user.brief = brief
+
+            if avatar:
+                user.avatar = avatar
 
             # persistent user object
             user.update()

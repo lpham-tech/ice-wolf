@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+    {%if edit%}
+        <title>Edit profile</title>
+    {%else%}
+        <title>{{current_user.first_name}}'s profile</title>
+    {%endif%}
+
+    {%from "macros.html" import top_nav,main_menu, render_pagination, render_short_post, render_css_include, render_script_include with context%}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    {{render_css_include()}}
+</head>
+
+<body >
+    <!-- Header -->
+    {{top_nav()}}
+
+    <!-- Main content -->
+    <div class="container main-content">
+        <div class="row"></div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="page-title">Edit Profile</div>
+            </div>
+        </div>
+        <div class="row">
+            {%if error_msg%}
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <div class="alert alert-danger" role="alert">{{error_msg}}</div>
+            </div>
+            {% endif%}
+
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <form method="POST" enctype=multipart/form-data class="form-horizontal" data-togle="validator">
+                    <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+                    <div class="form-group">
+                        <label for="select-file" class="col-sm-3 control-label">
+                            {%if current_user.avatar%}
+                            <img src="{{current_user.avatar}}" width="192" height="192" alt="{{current_user.full_name}}">
+                            {%else%}
+                            <img src="static/img/ava.jpg" width="192" height="192" alt="{{current_user.full_name}}">
+                            {%endif%}
+                        </label>
+                        <div class="btn-simple select-file" style="margin-top: 160px;">
+                            <span class="glyphicon glyphicon-picture"></span> Upload new avatar
+                            <input type="file" name ="avatar" id="select-file">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="first-name" class="col-sm-3 control-label">First name</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="first-name" name="first_name" placeholder="First name" value="{{current_user.first_name}}" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name" class="col-sm-3 control-label">Last name name</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="last-name" name="last_name" placeholder="Last name" value="{{current_user.last_name}}" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-sm-3 control-label">Email</label>
+                        <div class="col-sm-6">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{current_user.email}}" data-error="Oops, that email address is invalid" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="brief" class="col-sm-3 control-label">Brief</label>
+                        <div class="col-sm-6">
+                            <textarea class="form-control" id="brief" name="brief" placeholder="Short self description" required>{{current_user.brief}}</textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-offset-3">
+                        <button type="submit" class="btn btn-simple btn-active" name="update" value="1">Update</button>
+                        <button type="submit" class="btn btn-simple" >Cancel</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p class="copyright"><span>Powered by <a href="/">Dzung Nguyen</a></span></p>
+    </footer>
+    {{render_script_include(["/static/js/validator.min.js"])}}
+
+</body>
+</html>
