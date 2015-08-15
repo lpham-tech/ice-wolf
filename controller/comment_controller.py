@@ -16,6 +16,17 @@ def add_comment():
             return redirect(request.form["next"])
         else:
             return redirect("/")
-    except:
+    except Exception as e:
+        abort(400)
+
+def delete_comment(comment_id):
+    try:
+        args = {
+            "user_id" : current_user.id,
+            "comment_id": comment_id
+        }
+        Comment.delete_comment(**args)
+        return redirect(request.referrer)
+    except Exception as e:
         abort(400)
 

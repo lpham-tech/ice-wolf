@@ -85,7 +85,7 @@ class Comment(object):
             raise CommentNotFoundError(comment_id=comment_id)
 
         # only allow commenter/post author to delete comment
-        if comment.user_id != user_id and comment.post.id != user_id:
+        if comment.user_id != user_id and comment.post.author.id != user_id:
             raise  AccessDeniedError("You cannot delete others comment")
 
         try:

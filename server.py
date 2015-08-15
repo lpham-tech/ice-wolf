@@ -150,6 +150,18 @@ def edit(post_id):
 def comment():
     return comment_controller.add_comment()
 
+@app.route("/comment/<int:comment_id>", methods=["GET"])
+@login_required
+def comment_handler(comment_id):
+    if "action" in request.args:
+        action = request.args["action"]
+        if action == "delete":
+            return comment_controller.delete_comment(comment_id)
+        elif action == "edit":
+            pass
+    abort(400)
+
+
 
 @app.route("/category/<category>", methods=["GET"])
 @app.route("/category/<category>/<int:page>", methods=["GET"])

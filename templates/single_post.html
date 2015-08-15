@@ -81,7 +81,8 @@
                     <input type="hidden" name="post_id" value="{{post.id}}">
                     <input type="hidden" name="next" value="{{request.url}}">
                     <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
-                    <textarea id="comment-box" data-minlength="10" name="comment"> </textarea>
+                    <textarea id="comment-box" name="comment" placeholder="Comment must be at least 10 characters" data-minlength=10 required></textarea>
+                    <div class="help-block with-errors"></div>
                     <button type="submit" class="btn btn-simple">POST COMMENT</button>
                 </form>
             </div>
@@ -102,7 +103,12 @@
                         {%endif%}
                         <div class="col-md-10 col-xs-8">
                             <div class="commenter-name">{{comment.user.full_name}}</div>
-                            <div class="comment-time"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> {{comment.time.strftime("%B %e, %Y")}}</div>
+                            <div class="comment-time">
+                                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> {{comment.time.strftime("%B %e, %Y")}}
+                                {%if comment.user.id == current_user.id or post.author.id == current_user.id%}
+                                <a href="{{url_for('comment_handler', comment_id=comment.id, action='delete')}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                {%endif%}
+                            </div>
                             <div class="comment-content">
                                 {{comment.content}}
                             </div>
@@ -121,7 +127,7 @@
     <footer>
         <p class="copyright"><span>Powered by <a href="/">Dzung Nguyen</a></span></p>
     </footer>
-    {{render_script_include()}}
+    {{render_script_include(["/static/js/validator.min.js"])}}
 
 </body>
 </html>
